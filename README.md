@@ -1,6 +1,6 @@
 # greylocknewco
 
-> Making networking actionable 
+> Making networking actionable! 
 
 ## Getting started
 
