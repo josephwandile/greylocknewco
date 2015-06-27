@@ -1,7 +1,6 @@
-angular.module('starter.services', [])
+var ParseFactory = angular.module('ParseFactory', [])
 
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
+ParseFactory.factory('ParseService', function() {
 
   // Some fake testing data
   var chats = [{
