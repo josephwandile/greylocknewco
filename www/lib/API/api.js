@@ -1,11 +1,6 @@
 var Parse = require('parse').Parse;
 setup()
 
-// Table Objects from Parse
-var ActionItem = Parse.Object.extend("action_item");
-var Contact    = Parse.Object.extend("contact");
-var Meeting    = Parse.Object.extend("meeting");
-
 /**
  * Initializes the global `Parse` variable with secret keys
  * @return null
@@ -14,20 +9,10 @@ function setup() {
   Parse.initialize("VurVg5WSqG0AH9ui3Avf8wEBJxLEUZ1FgdvxXeKL", "YOptVhvEs5IWiSPPKO8z9V59dbeK0SiZBzLzZRlT");
 }
 
-// var Contact = Parse.Object.extend("contact");
-// var contact = new Contact();
-// var newContactData = {
-//   first_name: "Sherman",
-//   last_name: "Leung",
-//   email: "skleung@stanford.edu",
-//   phone: "3013256815",
-//   profile: "https://www.linkedin.com/in/shleung"
-// }
-// contact.save(newContactData).then(function(object) {
-//   console.log("yay! it worked");
-// });
-
-fetchAllActionItems()
+// Table Objects from Parse
+var ActionItem = Parse.Object.extend("action_item");
+var Contact    = Parse.Object.extend("contact");
+var Meeting    = Parse.Object.extend("meeting");
 
 
 /**
@@ -88,3 +73,15 @@ function randomActionItem() {
 function randomMeeting() {
   return null;
 }
+
+function main() {
+  fetchAllActionItems()
+}
+
+main()
+
+// Handle exporting globals so that other javascript files that `require` api.js have access to them
+module.exports.fetchAllActionItems = fetchAllActionItems;
+// module.exports.x = x;
+// module.exports.x = x;
+// module.exports.x = x;
