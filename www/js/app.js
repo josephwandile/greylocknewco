@@ -38,46 +38,73 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services'])
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.feed', {
+    url: '/feed',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-feed': {
+        templateUrl: 'templates/tab-feed.html',
+        controller: 'FeedCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.contacts', {
+      url: '/contacts',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-contacts': {
+          templateUrl: 'templates/tab-contacts.html',
+          controller: 'ContactsCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.contact-detail', {
+      url: '/contacts/:contactId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
-          controller: 'ChatDetailCtrl'
+        'tab-contacts': {
+          templateUrl: 'templates/contact-detail.html',
+          controller: 'ContactDetailCtrl'
+        }
+      }
+    })
+    .state('tab.meeting-detail', {
+      url: '/meetings/:meetingId',
+      views: {
+        'tab-meetings': {
+          templateUrl: 'templates/meetings-detail.html',
+          controller: 'MeetingDetailCtrl'
         }
       }
     })
 
-  .state('tab.account', {
-    url: '/account',
+  .state('tab.add', {
+    url: '/add',
     views: {
-      'tab-account': {
-        templateUrl: 'templates/tab-account.html',
-        controller: 'AccountCtrl'
+      'tab-add': {
+        templateUrl: 'templates/tab-add.html',
+        controller: 'AddCtrl'
+      }
+    }
+  })
+  .state('tab.add-profile', {
+    url: '/add/profile',
+    views: {
+      'tab-add-profile': {
+        templateUrl: 'templates/add-profile.html',
+        controller: 'AddProfileCtrl'
+      }
+    }
+  })
+  .state('tab.add-meeting', {
+    url: '/add/meeting',
+    views: {
+      'tab-add-meeting': {
+        templateUrl: 'templates/add-meeting.html',
+        controller: 'AddMeetingCtrl'
       }
     }
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/feed');
 
 });
