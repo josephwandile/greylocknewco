@@ -1,6 +1,18 @@
 var Parse = require('parse').Parse;
+setup()
 
-Parse.initialize("VurVg5WSqG0AH9ui3Avf8wEBJxLEUZ1FgdvxXeKL", "YOptVhvEs5IWiSPPKO8z9V59dbeK0SiZBzLzZRlT");
+// Table Objects from Parse
+var ActionItem = Parse.Object.extend("action_item");
+var Contact    = Parse.Object.extend("contact");
+var Meeting    = Parse.Object.extend("meeting");
+
+/**
+ * Initializes the global `Parse` variable with secret keys
+ * @return null
+ */
+function setup() {
+  Parse.initialize("VurVg5WSqG0AH9ui3Avf8wEBJxLEUZ1FgdvxXeKL", "YOptVhvEs5IWiSPPKO8z9V59dbeK0SiZBzLzZRlT");
+}
 
 // var Contact = Parse.Object.extend("contact");
 // var contact = new Contact();
@@ -30,7 +42,7 @@ function fetchTable(tableName) {
 }
 
 /**
- * [fetchAllActionItems description]
+ * Returns an array of all action items in the database
  * @return Array[ActionItem] [description]
  */
 function fetchAllActionItems() {
@@ -53,6 +65,8 @@ function fetchAllActionItems() {
   });
 }
 
+
+
 /**
  * DEBUGGING FUNCTIONS
  */
@@ -64,13 +78,13 @@ function randomContact() {
     email: "skleung@stanford.edu",
     phone: "3013256815",
     profile: "https://www.linkedin.com/in/shleung"
-  }
+  };
 }
 
 function randomActionItem() {
-  
+  return null;
 }
 
 function randomMeeting() {
-  
+  return null;
 }
