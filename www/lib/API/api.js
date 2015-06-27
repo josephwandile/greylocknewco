@@ -14,7 +14,6 @@ var ActionItem = Parse.Object.extend("action_item");
 var Contact    = Parse.Object.extend("contact");
 var Meeting    = Parse.Object.extend("meeting");
 
-
 /**
  * Returns an extended Parse.Object instance
  * configured to the target table.
@@ -28,26 +27,29 @@ function fetchTable(tableName) {
 
 /**
  * Returns an array of all action items in the database
- * @return Array[ActionItem] [description]
+ * @return Array[ActionItem] Action items in the DB
  */
 function fetchAllActionItems() {
-  console.log("Here");
-  // var actionItemTable = fetchTable('action_item');
-  var ActionItem = Parse.Object.extend("action_item");
   var queryObject = new Parse.Query(ActionItem);
   queryObject.find({
     success: function (results) {
-      console.log(results);
       for (var i = 0; i < results.length; i++) {
         console.log(results[i]);
-        console.log("Got a result!");
       }
     },
     error: function (error) {
-      console.log("Error");
-      alert("Error: " + error.code + " " + error.message);
+      console.log("Error: " + error.code + " " + error.message);
     }
   });
+}
+
+/**
+ * Converts a specified contact ID into a contact object
+ * @param  {string} contact_id the id of the contact to fetch
+ * @return {Contact}            the full contact object
+ */
+function getContactByID(contact_id) {
+  
 }
 
 
@@ -55,7 +57,7 @@ function fetchAllActionItems() {
 /**
  * DEBUGGING FUNCTIONS
  */
-function randomContact() {
+function makeContact() {
   // Chosen by dice roll, guaranteed to be random
   return {
     first_name: "Sherman",
@@ -66,11 +68,17 @@ function randomContact() {
   };
 }
 
-function randomActionItem() {
-  return null;
+function makeActionItem(contact_id) {
+  return {
+    contact: contact_id,
+    date: null,
+    link: "http://www.google.com/",
+    text: "Hello there!",
+    type: "TIP"
+  };
 }
 
-function randomMeeting() {
+function makeMeeting() {
   return null;
 }
 
