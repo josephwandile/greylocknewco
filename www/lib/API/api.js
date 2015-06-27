@@ -46,10 +46,22 @@ function fetchAllActionItems() {
 /**
  * Converts a specified contact ID into a contact object
  * @param  {string} contact_id the id of the contact to fetch
- * @return {Contact}            the full contact object
+ * @return {Contact}            the full contact object, or null if invalid
  */
 function getContactByID(contact_id) {
-  
+  var query = new Parse.Query(Contact);
+  // Add constraints
+  query.equalTo("objectId", contact_id);
+  query.limit(1);
+  query.first({
+    success: function(object) {
+      return object;
+    },
+    error: function(error) {
+      alert("Error: " + error.code + " " + error.message);
+    }
+  });
+  return null;
 }
 
 
