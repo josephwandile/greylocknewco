@@ -14,3 +14,24 @@ var newContactData = {
 contact.save(newContactData).then(function(object) {
   console.log("yay! it worked");
 });
+
+
+/**
+ * Returns an extended Parse.Object instance
+ * configured to the target table.
+ * @param  {string} tableName name of the table to fetch
+ * @return {Parse.Object}     table instance
+ */
+function fetchTable(tableName) {
+	var Table = new Parse.Object.extend(tableName);
+	return new Table();
+}
+
+/**
+ * [fetchAllActionItems description]
+ * @return Array[ActionItem] [description]
+ */
+function fetchAllActionItems() {
+	var actionItemTable = fetchTable('action_item');
+
+}
