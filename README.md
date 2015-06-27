@@ -1,5 +1,7 @@
 # greylocknewco
 
+> Making networking actionable 
+
 ## Getting started
 
 ```
