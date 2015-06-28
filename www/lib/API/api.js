@@ -1,6 +1,5 @@
 var Parse = require('parse').Parse;
 setup()
-<<<<<<< HEAD
 
 /**
  * Initializes the global `Parse` variable with secret keys
@@ -287,4 +286,3 @@ module.exports = {
   saveContact: saveContact,
   saveMeeting: saveMeeting,
 };
->>>>>>> b37afd4eb56641001c0cc0d5d6c0bee224cdda1b
