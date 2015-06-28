@@ -1,6 +1,6 @@
 var AddMeetingController = angular.module('AddMeetingController', []);
 
-AddMeetingController.controller('AddMeetingCtrl', ['$scope','$location', 'ParseService', function($scope, $location, ParseService) {
+AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'ParseService', function($scope, $location, ParseService) {
     console.log('Controller Activated');
 
     console.log('Currently updating meeting with ID ', ParseService.current_meeting_id);
@@ -15,12 +15,12 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope','$location', 'ParseS
 
         var authPromise = ParseService.updateMeeting(current_meeting_id, {
             'data': JSON.stringify(payload)
-        })
+        });
 
         authPromise.success(function(data) {
 
-        	// Route to recently created meeting
-        	$location.path('tab/meetings/:' + current_meeting_id);
+            // Route back to feed
+            $location.path('tab/feed');
 
         }).error(function(data, status) {
             console.log(status);

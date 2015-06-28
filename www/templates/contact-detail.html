@@ -4,38 +4,45 @@
             {{ contact.avatarText }}
         </div>
         <h2 class="center"> {{contact.first_name}} {{contact.last_name}}</h2>
-        <h5 class="grey center"> {{contact.position}} at {{contact.company}}</h5>
+        <h5 class="grey center">
+            {{contact.position}} at {{contact.company}}
+        </h5>
         <div class="button-bar row">
             <a ng-if="contact.phone" class="button button-light icon ion-ios-telephone" href="tel:{{ contact.phone }}" target="_blank"></a>
             <a ng-if="contact.email" class="button button-light icon ion-email" href="mailto:{{ contact.email }}" target="_blank"></a>
             <a ng-if="contact.profile" class="button button-light icon ion-earth" href="{{ contact.profile }}" target="_blank"></a>
         </div>
 
-        <div class="list card" ng-repeat="meeting in meetings track by $index">
-            <div class="item item-body row">
-                <div ng-switch="meeting.type" class="col col-20">
-                    <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
-                        <i class="icon ion-ios-people"></i>
+        <ion-list>
+            <div class="card" ng-repeat="meeting in meetings track by $index">
+                <ion-item href="#/tab/meeting/{{ meeting.objectId }}">
+                    <div class="row item-text-wrap">
+                        <div ng-switch="meeting.type" class="col col-25">
+                            <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
+                                <i class="icon ion-ios-people"></i>
+                            </div>
+                            <div ng-switch-when="RECRUITING" class="avatar calm-bg">
+                                <i class="icon ion-briefcase"></i>
+                            </div>
+                            <div ng-switch-when="NETWORKING" class="avatar assertive-bg">
+                                <i class="icon ion-chatbubbles"></i>
+                            </div>
+                            <div ng-switch-when="PITCH" class="avatar balanced-bg">
+                                <i class="icon ion-mic-a"></i>
+                            </div>
+                            <div ng-switch-default class="avatar royal-bg">
+                                <i class="icon ion-help"></i>
+                            </div>
+                        </div>
+                        <div class="col col-75">
+                            <h3>
+                                {{meeting.location}}<br>
+                                <span class="muted">{{ meeting.createdAt | date }}</span>
+                            </h3>
+                        </div>
                     </div>
-                    <div ng-switch-when="RECRUITING" class="avatar calm-bg">
-                        <i class="icon ion-briefcase"></i>
-                    </div>
-                    <div ng-switch-when="NETWORKING" class="avatar assertive-bg">
-                        <i class="icon ion-chatbubbles"></i>
-                    </div>
-                    <div ng-switch-when="PITCH" class="avatar balanced-bg">
-                        <i class="icon ion-mic-a"></i>
-                    </div>
-                    <div ng-switch-default class="avatar royal-bg">
-                        <i class="icon ion-help"></i>
-                    </div>
-                </div>
-                <div class="col col-80">
-                    <h3>{{meeting.location}}</h3>
-                    <span class="grey" style="float:right">{{ meeting.date_formatted }}</span>
-                </div>
+                </ion-item>
             </div>
-        </div>
-
+        </ion-list>
     </ion-content>
 </ion-view>
