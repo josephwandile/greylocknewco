@@ -1,10 +1,10 @@
 var AddMeetingController = angular.module('AddMeetingController', []);
 
-AddMeetingController.controller('AddMeetingCtrl', ['$scope', 'ParseService', function($scope) {
+AddMeetingController.controller('AddMeetingCtrl', ['$scope', 'ParseService', function($scope, ParseService) {
   console.log('Controller Activated');
 
-/*
-  meeting details forms*/
+  console.log('Currently adding a meeting to user: ', ParseService.current_contact_id);
 
+  console.log('Currently updaing meeting with ID ', ParseService.current_meeting_id);
 
 }]);
