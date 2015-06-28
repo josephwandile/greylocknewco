@@ -14,6 +14,19 @@ var ActionItem = Parse.Object.extend("action_item");
 var Contact    = Parse.Object.extend("contact");
 var Meeting    = Parse.Object.extend("meeting");
 
+/**
+ * Methods for retrieving objects from Parse
+ * -----------------------------------------
+ * Each method takes a callback function.
+ * On success, we fire callback(results, null)
+ * and failure, we fire callback(null, error)
+ * 
+ * getAll[ActionItem|Contact|Meeting]s
+ *   getAllFromTable
+ * get[ActionItem|Contact|Meeting]byID
+ *   getEntryByID()
+ */
+
 function getAllFromTable(TableName, callback) {
   var query = new Parse.Query(TableName);
   query.find({
@@ -38,10 +51,9 @@ function getAllMeetings(callback) {
   fetchAllMeetings(Meeting, callback);
 }
 
-function getByID(TableName, id, callback) {
+function getEntryByID(TableName, id, callback) {
   var query = new Parse.Query(TableName);
-  query.equalTo("objectId", contact_id);
-  query.first({
+  query.get(id, {
     success: function(object) {
       callback(object, null);
     },
@@ -52,19 +64,56 @@ function getByID(TableName, id, callback) {
 }
 
 function getActionItemByID(contact_id, callback) {
-  getByID(ActionItem, contact_id, callback);
+  getEntryByID(ActionItem, contact_id, callback);
 }
 
 function getContactByID(contact_id, callback) {
-  getByID(Contact, contact_id, callback);
+  getEntryByID(Contact, contact_id, callback);
 }
 
 function getMeetingByID(contact_id, callback) {
-  getByID(Meeting, contact_id, callback);
+  getEntryByID(Meeting, contact_id, callback);
 }
 
 /**
- * Saves a meeting and creates action items
+ * Methods for saving objects to Parse
+ * -----------------------------------
+ * save[ActionItem|Contact|Meeting]
+ *   saveObject
+ */
+
+function saveObject(TableName, data, callback) {
+  var table = new TableName();
+  table.save(data, {
+    success: function(result) {
+      callback(result, null);
+    },
+    error: function(result, error) {
+      callback(null, error);
+    }
+  };
+}
+
+/** Saves an action item in the format:
+ {
+  contact: [object Object] // a full Parse contact object
+  type: "REMINDER", // {"REMINDER", "TIP"}
+  text: "Joe is back in town",
+  link: "tel:1231231234" // some actionable link that a phone can access
+  date: [date Object] // JavaScript date object
+ }
+ *
+ */
+
+function saveActionItem(data, callback) {
+  saveObject(ActionItem, data, function(result, error) {
+    if (result) console.log("ActionItem created with ID " + result.id);
+    callback(result, error);
+  });
+}
+
+/**
+ * Saves a contact
  * @param  {Object} data of the meeting to save in the following format:
  {
   first_name: "Neel",
@@ -76,11 +125,9 @@ function getMeetingByID(contact_id, callback) {
  */
 
 function saveContact(data) {
-  var contact = new Contact();
-  contact.save(data).then(function(object) {
-    console.log(object.get(first_name) + " " + object.get(last_name) + "saved with "
-                + "contact id " + object.id);
-    return object.id;
+  saveObject(Contact, data, function(result, error) {
+    if (result) console.log("Contact created with ID " + result.id);
+    callback(result, error);
   });
 }
 
@@ -95,21 +142,17 @@ function saveContact(data) {
  */
 
 function saveMeeting(data) {
-  var meeting = new Meeting();
-  meeting.save(data, {
-    success: function(object) {
-      console.log("Meeting saved with id = " + object.id);
-      // create action items
-      createActionItemsFromMeeting(object);
-    },
-    error: function(object, error) {
-      console.log(error);
+  saveObject(Meeting, data, function(result, error) {
+    if (result) {
+      console.log("Meeting created with ID " + result.id);
+      createActionItemsFromMeeting(result);
     }
-  })
+    callback(result, error);
+  });
 }
 
-/** Private function to create action items from a meeting object
- *
+/** 
+ * Private function to create action items from a meeting object
  */
 
 function createActionItemsFromMeeting(data) {
@@ -128,55 +171,8 @@ function createActionItemsFromMeeting(data) {
   saveActionItem(newActionItemData);
 }
 
-/** Saves an action item in the format:
- {
-  contact: [object Object] // a full Parse contact object
-  type: "REMINDER", // {"REMINDER", "TIP"}
-  text: "Joe is back in town",
-  link: "tel:1231231234" // some actionable link that a phone can access
-  date: [date Object] // JavaScript date object
- }
- *
- */
-
-function saveActionItem(data) {
-  var actionItem = new ActionItem();
-  actionItem.save(data).then(function(object) {
-    console.log("ActionItem saved with id = " + object.id);
-  });
-}
-
-
-/**
- * DEBUGGING FUNCTIONS
- */
-function makeContact() {
-  // Chosen by dice roll, guaranteed to be random
-  return {
-    first_name: "Sherman",
-    last_name: "Leung",
-    email: "skleung@stanford.edu",
-    phone: "3013256815",
-    profile: "https://www.linkedin.com/in/shleung"
-  };
-}
-
-function makeActionItem(contact_id) {
-  return {
-    contact: contact_id,
-    date: null,
-    link: "http://www.google.com/",
-    text: "Hello there!",
-    type: "TIP"
-  };
-}
-
-function makeMeeting() {
-  return null;
-}
-
 function main() {
-  // fetchAllActionItems()
+  // getAllActionItems()
 
   // Grabs Joe and saves a meeting with him
   // getContactByID("qsbGTjQI3I", function(joeContact) {
@@ -192,4 +188,11 @@ function main() {
 main()
 
 // Handle exporting globals so that other javascript files that `require` api.js have access to them
-module.exports.fetchAllActionItems = fetchAllActionItems;
+module.exports = {
+  getAllActionItems: getAllActionItems,
+  getAllContacts: getAllContacts,
+  getAllMeetings: getAllMeetings,
+  getActionItemByID: getActionItemByID,
+  getContactByID: getContactByID,
+  getMeetingByID: getMeetingByID,
+}
