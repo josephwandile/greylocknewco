@@ -280,6 +280,10 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
     var ParseService = {}
 
+    ParseService.current_user_id = '';
+
+    ParseService.current_meeting_id = '';
+
     ParseService.getAllContacts = function() {
         return $http.get('https://api.parse.com/1/classes/contact', {
             headers: {
