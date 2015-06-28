@@ -37,7 +37,7 @@
                         <div class="col col-75">
                             <h3>
                                 {{meeting.location}}<br>
-                                <span class="muted">{{ meeting.createdAt | date }}</span>
+                                <span class="muted" ng-if="meeting.createdAt">{{ meeting.createdAt | date }}</span>
                             </h3>
                         </div>
                     </div>
