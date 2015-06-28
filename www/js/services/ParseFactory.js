@@ -2,7 +2,9 @@ var ParseFactory = angular.module('ParseFactory', [])
 
 ParseFactory.factory('ParseService', ['$http', function($http) {
 
+    // ******** FORM ONE tab-add.html ************
     var questions = [{
+      // PROFILE INFO
         id: 0,
         text: 'Who did you meet with?',
         items: [{
@@ -15,6 +17,7 @@ ParseFactory.factory('ParseService', ['$http', function($http) {
             type: 'text'
         }]
     }, {
+      // MEETING INFO
         id: 1,
         text: 'Where did you meet?',
         items: [{
@@ -51,6 +54,8 @@ ParseFactory.factory('ParseService', ['$http', function($http) {
             type: 'radio'
         }]
     }, {
+        // ******** FORM 2 add-profile.html *********
+        // PROFILE INFO
         id: 4,
         text: 'Where have they worked?',
         items: [{
@@ -143,6 +148,8 @@ ParseFactory.factory('ParseService', ['$http', function($http) {
             type: 'text'
         }]
     }, {
+        // ****** FORM 3 add-meeting.html *******
+        // MEETING INFO
         id: 50,
         text: 'What about you did they get most excited by?',
         items: [{
