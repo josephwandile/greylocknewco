@@ -94,7 +94,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                       var newActionItemData = {
                         contact: contact,
                         type: "REMINDER",
-                        text: "Send a follow up email to " + contact.get('first_name'),
+                        text: "Send a follow-up email to " + contact.get('first_name'),
                         link: "mailto:" + email,
                         date: new Date()
                       }
