@@ -1,26 +1,19 @@
 <ion-view view-title="Feed">
     <ion-content class="padding">
-        <div class="list card">
-            <div class="item item-divider">Recent Updates</div>
-            <div class="item item-body">
-                <div>
-                    There is a fire in <b>sector 3</b>
-                </div>
+        <div class="list card" ng-repeat="item in actionItems">
+            <div class="item item-divider">
+                {{ item.contact.firstName }} {{ item.contact.lastName }} ({{ item.contact.company }})
             </div>
-        </div>
-        <div class="list card">
-            <div class="item item-divider">Health</div>
-            <div class="item item-body">
-                <div>
-                    You ate an apple today!
-                </div>
-            </div>
-        </div>
-        <div class="list card">
-            <div class="item item-divider">Upcoming</div>
-            <div class="item item-body">
-                <div>
-                    You have <b>29</b> meetings on your calendar tomorrow.
+            <div class="item item-body row">
+                <div class="col col-60">
+                    {{ item.text }}</div>
+                <div class="col col-40 center">
+                    <a ng-if="item.link" href="{{ item.link }}" class="button button-positive button-clear" target="_blank">
+                        <i class="icon {{ item.actionIcon }}"></i>
+                    </a>
+                    <button class="button button-balanced button-clear">
+                        <i class="icon ion-checkmark"></i>
+                    </button>
                 </div>
             </div>
         </div>
