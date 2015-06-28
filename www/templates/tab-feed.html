@@ -6,6 +6,7 @@
                     <a class="no-underline dark" ng-href="#tab/contacts/{{ item.contact.objectId }}">
                         {{ item.contact.first_name }} {{ item.contact.last_name }} ({{ item.contact.company }})
                     </a>
+                    <span class="muted">{{ item.date.iso | date:'M/d' }}</span>
                 </div>
                 <ion-item>
                     <ion-option-button class="button-balanced" ng-click="dismiss(item)">
