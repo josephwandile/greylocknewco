@@ -24,11 +24,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
             var location = payload['location'];
 
             // Parsing data correctly; this should never be an empty string
-            var day = payload['met_at'].getDay();
-            var month = payload['met_at'].getMonth();
-            var year = payload['met_at'].getFullYear();
-            var met_at = year + '-' + month + '-' + day + 'T';
-
+            var met_at = $scope.input['met_at'];
             var type = payload['type'].toUpperCase();
 
             var matches = false;
@@ -49,7 +45,6 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                     'first_name': first_name,
                     'last_name': last_name
                 });
-
                 authPromise.success(function(data) {
 
                     // Save current contact ID

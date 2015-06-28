@@ -101,7 +101,7 @@ var newco = angular.module('newco', [
     }
   })
   .state('tab.add-profile', {
-    url: '/add/profile',
+    url: '/add/profile/:contactId',
     views: {
       'tab-add': {
         templateUrl: 'templates/add-profile.html',
