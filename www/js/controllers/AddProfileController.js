@@ -36,7 +36,7 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
             'email': payload['email'],
             'phone': payload['phone'],
             'position': payload['position'],
-            'company': payload['company']
+            'company': payload['current_work']
         });
 
         authPromise.success(function(data) {

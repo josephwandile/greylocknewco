@@ -27,7 +27,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
             var day = payload['met_at'].getDay();
             var month = payload['met_at'].getMonth();
             var year = payload['met_at'].getFullYear();
-            var met_at = year + '-' + month + 'day' + 'T';
+            var met_at = year + '-' + month + '-' + day + 'T';
 
             var type = payload['type'].toUpperCase();
 
