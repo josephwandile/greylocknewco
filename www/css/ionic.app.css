@@ -7679,6 +7679,7 @@ a.button {
   text-align: center; }
 
 .avatar {
+  margin: auto;
   width: 50px;
   height: 50px;
   line-height: 50px;
@@ -7694,4 +7695,7 @@ a.button {
   margin-bottom: 0 !important; }
 
 .big {
-  font-size: 24px !important; }
+  font-size: 22px !important; }
+
+.grey {
+  color: #aaa; }
