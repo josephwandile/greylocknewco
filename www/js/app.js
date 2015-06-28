@@ -8,6 +8,7 @@
 var newco = angular.module('newco', [
     // Other Dependencies
     'ionic',
+    'monospaced.elastic',
 
     // Controllers
     'ContactsController',
@@ -103,7 +104,7 @@ var newco = angular.module('newco', [
   .state('tab.add-profile', {
     url: '/add/profile',
     views: {
-      'tab-add-profile': {
+      'tab-add': {
         templateUrl: 'templates/add-profile.html',
         controller: 'AddProfileCtrl'
       }
@@ -112,7 +113,7 @@ var newco = angular.module('newco', [
   .state('tab.add-meeting', {
     url: '/add/meeting',
     views: {
-      'tab-add-meeting': {
+      'tab-add': {
         templateUrl: 'templates/add-meeting.html',
         controller: 'AddMeetingCtrl'
       }
