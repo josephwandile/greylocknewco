@@ -308,6 +308,19 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
     ParseService.current_meeting_id = '';
 
+    // === WIT.AI
+    ParseService.parseDateAction = function(msg) {
+        return $.ajax({
+            url: 'https://api.wit.ai/message?v=20150628',
+            data: {
+                'q': msg,
+                'access_token': 'W4Y5MH4L2BAYD7KSPZIXQUUPRMV5AP5Y'
+            },
+            dataType: 'jsonp',
+            method: 'GET'
+        });
+    };
+
     // === AJAX
     ParseService.getAllContacts = function() {
         return $http.get('https://api.parse.com/1/classes/contact', {

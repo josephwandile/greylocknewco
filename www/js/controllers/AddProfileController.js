@@ -12,7 +12,7 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
     $scope.submitForm = function() {
 
         // === Standard Payload ===
-        var payload = ParseService.sanitizePayload($scope.input);
+        var payload = $scope.input;// ParseService.sanitizePayload($scope.input);
 
         // === Action Items ===
         // Articles
@@ -21,6 +21,12 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
 
         // Location reminders
         var travel_plans = payload['travel_plans'];
+
+        ParseService.parseDateAction(travel_plans).done(function(data) {
+        	debugger;
+        }).fail(function(data, status) {
+        	console.log(status);
+        })
 
         // === Ajax Request ===
         var authPromise = ParseService.updateContact(current_contact_id, {
