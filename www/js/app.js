@@ -83,7 +83,7 @@ var newco = angular.module('newco', [
       }
     })
     .state('tab.meeting-detail', {
-      url: '/meetings/:meetingId',
+      url: '/meeting/:meetingId',
       views: {
         'tab-meetings': {
           templateUrl: 'templates/meeting-detail.html',
