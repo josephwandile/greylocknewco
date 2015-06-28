@@ -1,9 +1,11 @@
 <ion-view view-title="Feed">
     <ion-content>
         <ion-list can-swipe="true">
-            <div class="card" ng-repeat="item in actionItems">
+            <div class="card item-text-wrap" ng-repeat="item in actionItems">
                 <div class="item item-divider">
-                    {{ item.contact.first_name }} {{ item.contact.last_name }} ({{ item.contact.company }})
+                    <a class="no-underline dark" ng-href="#tab/contacts/{{ item.contact.objectId }}">
+                        {{ item.contact.first_name }} {{ item.contact.last_name }} ({{ item.contact.company }})
+                    </a>
                 </div>
                 <ion-item>
                     <ion-option-button class="button-balanced" ng-click="dismiss(item)">
