@@ -1,8 +1,10 @@
 var ParseFactory = angular.module('ParseFactory', [])
 
-ParseFactory.factory('ParseService', function() {
+ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($http, PARSE_CREDENTIALS) {
 
+    // ******** FORM ONE tab-add.html ************
     var questions = [{
+        // PROFILE INFO
         id: 0,
         text: 'Who did you meet with?',
         items: [{
@@ -15,6 +17,7 @@ ParseFactory.factory('ParseService', function() {
             type: 'text'
         }]
     }, {
+        // MEETING INFO
         id: 1,
         text: 'Where did you meet?',
         items: [{
@@ -51,6 +54,8 @@ ParseFactory.factory('ParseService', function() {
             type: 'radio'
         }]
     }, {
+        // ******** FORM 2 add-profile.html *********
+        // PROFILE INFO
         id: 4,
         text: 'Where have they worked?',
         items: [{
@@ -60,6 +65,14 @@ ParseFactory.factory('ParseService', function() {
         }, {
             field: 'past_work',
             label: 'Previously',
+            type: 'text'
+        }]
+    }, {
+        id: 60,
+        text: 'What do they do?',
+        items: [{
+            field: 'position',
+            label: 'e.g. Investor, Software Engineer',
             type: 'text'
         }]
     }, {
@@ -135,6 +148,8 @@ ParseFactory.factory('ParseService', function() {
             type: 'text'
         }]
     }, {
+        // ****** FORM 3 add-meeting.html *******
+        // MEETING INFO
         id: 50,
         text: 'What about you did they get most excited by?',
         items: [{
@@ -152,7 +167,7 @@ ParseFactory.factory('ParseService', function() {
         }]
     }, {
         id: 52,
-        text: "Did they suggest that you meet or talk with someone?",
+        text: 'Did they suggest that you meet or talk with someone?',
         items: [{
             field: 'suggestion',
             label: 'Yes',
@@ -218,7 +233,7 @@ ParseFactory.factory('ParseService', function() {
             label: 'e.g. email me in a week; apply for X',
             type: 'textarea'
         }]
-    },{
+    }, {
         id: 59,
         text: 'Anything else come up in the meeting?',
         items: [{
@@ -259,23 +274,175 @@ ParseFactory.factory('ParseService', function() {
         '57': 'advice',
         // Provide reminders
         '58': 'instructions',
-        '59': 'meeting_notes'
+        '59': 'meeting_notes',
+        '60': 'position'
     };
 
-    return {
-        all: function() {
-            return questions;
-        },
-        remove: function(question) {
-            questions.splice(questions.indexOf(question), 1);
-        },
-        get: function(questionId) {
-            for (var i = 0; i < questions.length; i++) {
-                if (questions[i].id === parseInt(questionId)) {
-                    return questions[i];
-                }
-            }
-            return null;
-        }
+    var ParseService = {};
+
+    ParseService.questions = questions;
+
+    // returns all questions whose ids in the question dictionary are
+    // in the range [min, max].
+    ParseService.getQuestions = function(min, max) {
+        return questions.filter(function(question){
+            return question.id >= min && question.id <= max;
+        });
     };
+
+    ParseService.current_contact_id = '';
+
+    ParseService.current_meeting_id = '';
+
+    ParseService.getAllContacts = function() {
+        return $http.get('https://api.parse.com/1/classes/contact', {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            }
+        });
+    };
+    ParseService.createContact = function(data) {
+        return $http.post('https://api.parse.com/1/classes/contact',data, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
+            }
+        });
+    };
+    ParseService.getContact = function(id) {
+        return $http.get('https://api.parse.com/1/classes/contact' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+    ParseService.updateContact = function(id, data) {
+        return $http.put('https://api.parse.com/1/classes/contact' + id, data, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+    ParseService.deleteContact = function(id) {
+        return $http.delete('https://api.parse.com/1/classes/contact' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
+    ParseService.getAllMeetings = function() {
+        return $http.get('https://api.parse.com/1/classes/meeting', {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            }
+        });
+    };
+    ParseService.getMeetingsForContactId = function(contactId) {
+        return $http.get('https://api.parse.com/1/classes/meeting', {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            },
+            params: {
+                "contactId": contactId
+            }
+        });
+    };
+    ParseService.createMeeting = function(data) {
+        return $http.post('https://api.parse.com/1/classes/meeting',data, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
+            }
+        });
+    };
+    ParseService.getMeeting = function(id) {
+        return $http.get('https://api.parse.com/1/classes/meeting' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+    ParseService.updateMeeting = function(id, data) {
+        return $http.put('https://api.parse.com/1/classes/meeting' + id, data, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+    ParseService.deleteMeeting = function(id) {
+        return $http.delete('https://api.parse.com/1/classes/meeting' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
+    ParseService.getAllActionItems = function() {
+        return $http.get('https://api.parse.com/1/classes/action_item?include=contact', {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            }
+        });
+    };
+    ParseService.createActionItem = function(data) {
+        return $http.post('https://api.parse.com/1/classes/action_item',data, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
+            }
+        });
+    };
+    ParseService.getActionItem = function(id) {
+        return $http.get('https://api.parse.com/1/classes/action_item' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+    ParseService.updateActionItem = function(id, data) {
+        return $http.put('https://api.parse.com/1/classes/action_item' + id, data, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+    ParseService.deleteActionItem = function(id) {
+        return $http.delete('https://api.parse.com/1/classes/action_item' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+    };
+
+    return ParseService;
+
+}]).value('PARSE_CREDENTIALS', {
+    APP_ID: 'VurVg5WSqG0AH9ui3Avf8wEBJxLEUZ1FgdvxXeKL',
+    REST_API_KEY: 'sThhgc4cHiS5yJEN5tjwYQRT3HhlyvnkAfuOwO5R'
 });
