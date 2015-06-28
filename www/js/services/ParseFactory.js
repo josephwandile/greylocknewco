@@ -538,7 +538,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
                     var days_since = Math.floor(time_passed / (24 * 60 * 60 * 1000));
                     if (days_since >= 21) {
                         (function(contact, days_since) {
-                            _this.getActionItemByContactId(cur_user.objectId).success(function(data) {
+                            _this.getActionItemByContactId(contact.objectId).success(function(data) {
                                 if (data.results.length === 0) {
 
                                     _this.createActionItem({
