@@ -8,7 +8,6 @@ FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope
 
     authPromise.success(function(data) {
         var actionItems = data.results;
-        debugger;
         $scope.actionItems = actionItems.map(function(item) {
             if (item.link) {
                 // dynamically generate call to action button

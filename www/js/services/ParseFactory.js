@@ -298,11 +298,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-    ParseService.createContact = function() {
-        return $http.post('https://api.parse.com/1/classes/contact', {
+    ParseService.createContact = function(data) {
+        return $http.post('https://api.parse.com/1/classes/contact',data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
             }
         });
     };
@@ -342,11 +343,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-    ParseService.createMeeting = function() {
-        return $http.post('https://api.parse.com/1/classes/meeting', {
+    ParseService.createMeeting = function(data) {
+        return $http.post('https://api.parse.com/1/classes/meeting',data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
             }
         });
     };
@@ -386,11 +388,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-    ParseService.createActionItem = function() {
-        return $http.post('https://api.parse.com/1/classes/action_item', {
+    ParseService.createActionItem = function(data) {
+        return $http.post('https://api.parse.com/1/classes/action_item',data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
             }
         });
     };
