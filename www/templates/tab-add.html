@@ -1,44 +1,6 @@
 <ion-view view-title="Add">
     <ion-content>
-        <ion-list>
-            <div class="list card" ng-repeat="question in questions">
-                <div class="item item-divider">
-                    {{ question.text }}
-                </div>
-
-                <div ng-switch="question.type">
-                    <div ng-switch-when="standard">
-                        <label class="item item-input item-floating-label" ng-repeat="item in question.items">
-                            <span class="input-label">{{ item.label }}</span>
-                            <input type="{{ item.type }}" placeholder="{{ item.label }}" name="{{ item.field }}" ng-model="input[item.field]">
-                        </label>
-                    </div>
-                    <div ng-switch-when="textarea">
-                        <label class="item item-input item-floating-label" ng-repeat="item in question.items">
-                            <span class="input-label">{{ item.label }}</span>
-                            <textarea class="msd-elastic: \n;" ng-model="input[item.field]" placeholder="{{ item.label}}"></textarea>
-                        </label>
-                    </div>
-                    <div ng-switch-when="radio">
-                        <label class="item item-radio" ng-repeat="item in question.items">
-                            <input type="radio" name="{{ item.field }}" value="{{ item.label }}" ng-model="input[item.field]">
-                            <div class="item-content">
-                                {{ item.label }}
-                            </div>
-                            <i class="radio-icon ion-checkmark"></i>
-                        </label>
-                    </div>
-                    <div ng-switch-when="checkbox">
-                        <div class="item item-checkbox" ng-repeat="item in question.items">
-                            <label class="checkbox">
-                                <input type="checkbox" value="{{ item.label }}" ng-model="input[item.field][item.label]">
-                            </label>
-                            {{ item.label }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </ion-list>
+        <div question-form></div>
 
         <button ng-click="submitForm()" class="button button-block button-balanced">
             Continue

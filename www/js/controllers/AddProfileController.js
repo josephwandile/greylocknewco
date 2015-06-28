@@ -5,5 +5,5 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', fun
 
   console.log('Currently updating profile of user ID: ', ParseService.current_contact_id)
 
-
+  $scope.questions = ParseService.getQuestions(4, 11);
 }]);

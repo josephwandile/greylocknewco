@@ -3,29 +3,8 @@ var AddController = angular.module('AddController', []);
 AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$location', 'ParseService', function($scope, $location, ParseService /*, $route*/ /*, $window*/ ) {
     console.log('Controller Activated');
 
+    $scope.questions = ParseService.getQuestions(0, 3);
     $scope.input = {};
-
-    $scope.questions = ParseService.getQuestions(0, 3).map(function(question) {
-        // check question's items
-        // alternatives:
-        // * all checkboxes
-        // * all radios
-        // * all textareas
-        // * a mix of other inputs, like text, email, number, etc.
-        // checkboxes and radios get special rendering
-
-        // just check if the first item is a checkbox or radio or textarea,
-        // because if one is the rest should all be
-        question.type = "standard";
-        if (question.items[0].type == "textarea") {
-            question.type = "textarea";
-        } else if (question.items[0].type == "radio") {
-            question.type = "radio";
-        } else if (question.items[0].type == "checkbox") {
-            question.type = "checkbox";
-        }
-        return question;
-    });
 
     $scope.submitForm = function() {
 
@@ -39,17 +18,17 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
             console.log("Test", contacts)
 
-            var first_name = $scope.input['first_name'];
-            var last_name = $scope.input['last_name'];
-            var location = $scope.input['location'];
+            var first_name = 'Test'//$scope.input['first_name'];
+            var last_name = 'Test'//$scope.input['last_name'];
+            var location = 'Test'//$scope.input['location'];
 
             // Parsing data correctly
-            var day = $scope.input['met_at'].getDay();
-            var month = $scope.input['met_at'].getMonth();
-            var year = $scope.input['met_at'].getFullYear();
-        	var met_at = year + '-' + month + 'day' + 'T';
+            // var day = $scope.input['met_at'].getDay();
+            // var month = $scope.input['met_at'].getMonth();
+            // var year = $scope.input['met_at'].getFullYear();
+        	var met_at = '0000-01-01T'//year + '-' + month + 'day' + 'T';
 
-            var type = $scope.input['type'].toUpperCase();
+            var type = 'RECRUITING'//$scope.input['type'].toUpperCase();
 
             // Searching to see if contact already exists
             for (var i = 0; i < contacts.length; i++) {
@@ -64,7 +43,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
                         authPromise.success(function(data) {
 
-                            // Save current user ID
+                            // Save current contact ID
                             ParseService.current_contact_id = data.objectId;
 
                             // Creating meeting to be updated later
@@ -108,6 +87,18 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         'type': type,
                         'location': location
                     }).success(function(data) {
+                      var contact = data.get("contact");
+                      var email = contact.get("email");
+
+                      // create and save the action item
+                      var newActionItemData = {
+                        contact: contact,
+                        type: "REMINDER",
+                        text: "Send a follow up email to " + contact.get('first_name'),
+                        link: "mailto:" + email,
+                        date: new Date()
+                      }
+                      ParseService.createActionItem(newActionItemData);
 
                         // Added meeting
                         ParseService.current_meeting_id = data.objectId;

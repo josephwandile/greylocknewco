@@ -6,7 +6,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     var questions = [{
         // PROFILE INFO
         id: 0,
-        text: 'Who did you meet with?',
+        text: 'Who did you meet?',
         items: [{
             field: 'first_name',
             label: 'First Name',
@@ -19,7 +19,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     }, {
         // MEETING INFO
         id: 1,
-        text: 'Where did you meet?',
+        text: 'Where?',
         items: [{
             field: 'location',
             label: 'Location',
@@ -68,7 +68,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             type: 'text'
         }]
     }, {
-        id: 60,
+        id: 11,
         text: 'What do they do?',
         items: [{
             field: 'position',
@@ -85,7 +85,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 6,
-        text: 'Want to add their contact information?',
+        text: 'What contact information of theirs did you get?',
         items: [{
             field: 'email',
             label: 'Email',
@@ -108,7 +108,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             type: 'checkbox'
         }, {
             field: 'work_field',
-            label: 'BioTech/Health Tech',
+            label: 'Biotech/Health Tech',
             type: 'checkbox'
         }, {
             field: 'work_field',
@@ -128,7 +128,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'Did they mention any hobbies?',
         items: [{
             field: 'hobbies',
-            label: 'List them here!',
+            label: 'These are great to start conversations.',
             type: 'textarea'
         }]
     }, {
@@ -144,7 +144,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'How often are they in your area?',
         items: [{
             field: 'travel_plans',
-            label: 'e.g. In SF on Monday and Tuesday every second week',
+            label: 'e.g. In SF this Tues & every Mon',
             type: 'text'
         }]
     }, {
@@ -162,7 +162,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'What did you laugh about?',
         items: [{
             field: 'laugh',
-            label: 'Probably good to reference these later',
+            label: 'Probably good to reference these later!',
             type: 'textarea'
         }]
     }, {
@@ -187,7 +187,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 54,
-        text: 'Did they offer to introduce you?',
+        text: 'Did they offer to introduce you to them?',
         items: [{
             field: 'intro',
             label: 'Yes',
@@ -199,7 +199,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 55,
-        text: 'Did they suggest anything to read',
+        text: 'Did they suggest anything to read?',
         items: [{
             field: 'suggest_read',
             label: 'Yes',
@@ -211,7 +211,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 56,
-        text: 'Which did they suggest to read?',
+        text: 'What did they suggest to read?',
         items: [{
             field: 'suggested_to_read',
             label: 'List or link them here',
@@ -222,12 +222,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'What useful advice did they give you?',
         items: [{
             field: 'advice',
-            label: 'Write any advice here',
+            label: 'Life or career tips',
             type: 'textarea'
         }]
     }, {
         id: 58,
-        text: 'Did they give you any instructions??',
+        text: 'Did they give you any instructions?',
         items: [{
             field: 'instructions',
             label: 'e.g. email me in a week; apply for X',
@@ -238,7 +238,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'Anything else come up in the meeting?',
         items: [{
             field: 'meeting_note',
-            label: 'Meeting Notes',
+            label: 'Miscellaneous Notes',
             type: 'textarea'
         }]
     }];
@@ -250,6 +250,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         '2': 'met_at',
         '3': 'type',
         '4': 'work_info',
+        '11': 'position',
         '5': 'achievements',
         '6': 'contact_info',
         // Links Sector
@@ -275,7 +276,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         // Provide reminders
         '58': 'instructions',
         '59': 'meeting_notes',
-        '60': 'position'
+
     };
 
     var ParseService = {};
