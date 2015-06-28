@@ -5,6 +5,7 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
 
     console.log('Currently updating profile of user ID: ', $stateParams.contactId);
     var current_contact_id = $stateParams.contactId;
+    var current_meeting_id = $stateParams.meetingId;
 
     $scope.questions = ParseService.getQuestions(4, 11);
     $scope.input = {};
@@ -61,9 +62,9 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
         authPromise.success(function(data) {
 
             // Profile created; now add meeting details
-            $location.path('tab/add/meeting');
+            $location.path('tab/add/meeting/'+current_meeting_id);
 
-        }).error(function(data, status) {
+        }).error(function(data, status, config, header) {
             console.log(status);
         });
     };
