@@ -28,10 +28,20 @@ QuestionForm.directive('questionForm', [function() {
                 return question;
             });
 
+            // default all form fields to empty strings,
+            // or today for dates
             for (var i = 0; i < scope.questions.length; i++) {
                 var question = scope.questions[i];
                 for (var j = 0; j < question.items.length; j++) {
-                    scope.input[question.items[j].field] = "";
+                    var item = question.items[j];
+                    var defaultValue = "";
+                    if(item.type === "date"){
+                        defaultValue = new Date();
+                    }
+                    else{
+                        defaultValue = "";
+                    }
+                    scope.input[item.field] = defaultValue;
                 }
             }
 
