@@ -7703,5 +7703,6 @@ a.button {
 .no-underline {
   text-decoration: none; }
 
-.wrap {
-  white-space: normal !important; }
+.block-center {
+  display: block;
+  margin: auto; }
