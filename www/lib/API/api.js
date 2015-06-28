@@ -14,54 +14,53 @@ var ActionItem = Parse.Object.extend("action_item");
 var Contact    = Parse.Object.extend("contact");
 var Meeting    = Parse.Object.extend("meeting");
 
-/**
- * Returns an extended Parse.Object instance
- * configured to the target table.
- * @param  {string} tableName name of the table to fetch
- * @return {Parse.Object}     table instance
- */
-function fetchTable(tableName) {
-  // var Table = new Parse.Object.extend(tableName);
-  // return new Table();
-}
-
-/**
- * Returns an array of all action items in the database
- * @return Array[ActionItem] Action items in the DB
- */
-function fetchAllActionItems() {
-  var queryObject = new Parse.Query(ActionItem);
-  queryObject.find({
+function getAllFromTable(TableName, callback) {
+  var query = new Parse.Query(TableName);
+  query.find({
     success: function (results) {
-      for (var i = 0; i < results.length; i++) {
-        console.log(results[i]);
-      }
+      callback(results, null);
     },
     error: function (error) {
-      console.log("Error: " + error.code + " " + error.message);
+      callback(null, error);
     }
   });
 }
 
-/**
- * Converts a specified contact ID into a contact object
- * @param  {string} contact_id the id of the contact to fetch
- * @param  {callback} function to execute after fetching the contact object
- */
-function getContactByID(contact_id, callback) {
-  var query = new Parse.Query(Contact);
-  // Add constraints
+function getAllActionItems(callback) {
+  fetchAllActionItems(ActionItem, callback);
+}
+
+function getAllContacts(callback) {
+  fetchAllContacts(Contact, callback);
+}
+
+function getAllMeetings(callback) {
+  fetchAllMeetings(Meeting, callback);
+}
+
+function getByID(TableName, id, callback) {
+  var query = new Parse.Query(TableName);
   query.equalTo("objectId", contact_id);
-  query.limit(1);
   query.first({
-   success: function(object) {
-      console.log(object);
-      callback(object)
-   },
-   error: function(error) {
-    console.log(error);
-   }
+    success: function(object) {
+      callback(object, null);
+    },
+    error: function(error) {
+      callback(null, error);
+    }
   });
+}
+
+function getActionItemByID(contact_id, callback) {
+  getByID(ActionItem, contact_id, callback);
+}
+
+function getContactByID(contact_id, callback) {
+  getByID(Contact, contact_id, callback);
+}
+
+function getMeetingByID(contact_id, callback) {
+  getByID(Meeting, contact_id, callback);
 }
 
 /**
