@@ -8,6 +8,10 @@ MeetingDetailController.controller('MeetingDetailCtrl', ['$scope', '$stateParams
         $scope.questions = ParseService.getQuestions(50, 59);
         $scope.input = {};
 
+        $scope.save = function() {
+
+        };
+
         var meetingId = $stateParams.meetingId;
         var authPromise = ParseService.getMeeting(meetingId);
         authPromise.success(function(meeting) {

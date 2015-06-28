@@ -1,6 +1,6 @@
 var ContactDetailController = angular.module('ContactDetailController', []);
 
-ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService', '$stateParams', function($scope, ParseService, $stateParams) {
+ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService', '$stateParams', '$location', function($scope, ParseService, $stateParams, $location) {
     console.log('Controller Activated');
 
     var avatarColors = [
@@ -21,6 +21,33 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
     // get only the questions specific to this person's profile
     $scope.questions = ParseService.getQuestionsSpecific([5, 7, 8, 9, 10]);
     $scope.input = {};
+
+    $scope.save = function() {
+
+        // === Standard Payload ===
+        var payload = ParseService.sanitizePayload($scope.input);
+
+        // === Ajax Request ===
+        var authPromise = ParseService.updateContact($stateParams.contactId, {
+            'data': JSON.stringify(payload),
+
+            // Remaining Columns
+            'email': payload['email'],
+            'phone': payload['phone'],
+            'position': payload['position'],
+            'company': payload['current_work']
+        });
+
+        authPromise.success(function(data) {
+
+            // Profile created; now add meeting details
+            $location.path('tab/contacts/');
+
+        }).error(function(data, status, config, header) {
+            console.log(status);
+        });
+    };
+
 
     var getContactPromise = ParseService.getContact($stateParams.contactId);
     getContactPromise.success(function(contact) {
