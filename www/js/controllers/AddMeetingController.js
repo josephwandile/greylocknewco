@@ -11,8 +11,21 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope','$location', 'ParseS
 
     $scope.submitForm = function() {
 
-        var payload = $scope.input; 
+        var payload = $scope.input;
 
+        $.ajax({
+            url: 'https://api.wit.ai/message?v=20150628',
+            data: {
+            'q': 'Joe will be back in SF next month',
+            'access_token' : 'W4Y5MH4L2BAYD7KSPZIXQUUPRMV5AP5Y'
+            },
+            dataType: 'jsonp',
+            method: 'GET',
+            success: function(response) {
+            debugger
+              console.log("success!", response);
+            }
+        });
         var authPromise = ParseService.updateMeeting(current_meeting_id, {
             'data': JSON.stringify(payload)
         })
