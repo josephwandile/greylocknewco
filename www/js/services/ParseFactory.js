@@ -128,7 +128,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'Did they mention any hobbies?',
         items: [{
             field: 'hobbies',
-            label: 'List them here!',
+            label: 'These are great to start conversations.',
             type: 'textarea'
         }]
     }, {
@@ -144,7 +144,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'How often are they in your area?',
         items: [{
             field: 'travel_plans',
-            label: 'e.g. In SF on Monday and Tuesday every second week',
+            label: 'e.g. In SF this Tues & every Mon',
             type: 'text'
         }]
     }, {
