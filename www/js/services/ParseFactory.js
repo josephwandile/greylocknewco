@@ -280,7 +280,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
     var ParseService = {}
 
-    ParseService.current_user_id = '';
+    ParseService.current_contact_id = '';
 
     ParseService.current_meeting_id = '';
 
