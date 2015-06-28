@@ -292,16 +292,8 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-    ParseService.createContact = function() {
-        return $http.post('https://api.parse.com/1/classes/contact', {
-            headers: {
-                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-            }
-        });
-    };
-    ParseService.getContact = function(id) {
-        return $http.get('https://api.parse.com/1/classes/contact'+id, {
+    ParseService.createContact = function(data) {
+        return $http.post('https://api.parse.com/1/classes/contact',data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -309,8 +301,16 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+    ParseService.getContact = function(id) {
+        return $http.get('https://api.parse.com/1/classes/contact/'+id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            }
+        });
+    };
     ParseService.updateContact = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/contact'+id,data, {
+        return $http.put('https://api.parse.com/1/classes/contact/'+id,data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -319,7 +319,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteContact = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/contact'+id, {
+        return $http.delete('https://api.parse.com/1/classes/contact/'+id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -336,11 +336,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-    ParseService.createMeeting = function() {
-        return $http.post('https://api.parse.com/1/classes/meeting', {
+    ParseService.createMeeting = function(data) {
+        return $http.post('https://api.parse.com/1/classes/meeting',data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
             }
         });
     };
@@ -349,7 +350,6 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
             }
         });
     };
@@ -380,11 +380,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-    ParseService.createActionItem = function() {
-        return $http.post('https://api.parse.com/1/classes/action_item', {
+    ParseService.createActionItem = function(data) {
+        return $http.post('https://api.parse.com/1/classes/action_item',data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type':'application/json'
             }
         });
     };
@@ -393,7 +394,6 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
             }
         });
     };
