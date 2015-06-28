@@ -4,6 +4,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
     console.log('Controller Activated');
 
     $scope.questions = ParseService.getQuestions(0, 3);
+    $scope.input = {};
 
     $scope.submitForm = function() {
 
