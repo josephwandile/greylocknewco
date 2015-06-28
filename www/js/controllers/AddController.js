@@ -16,11 +16,9 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
             var contacts = data.results;
 
-            console.log("Test", contacts)
-
-            var first_name = 'Test'//$scope.input['first_name'];
-            var last_name = 'Test'//$scope.input['last_name'];
-            var location = 'Test'//$scope.input['location'];
+            var first_name = $scope.input['first_name'];
+            var last_name = $scope.input['last_name'];
+            var location = $scope.input['location'];
 
             // Parsing data correctly
             // var day = $scope.input['met_at'].getDay();
