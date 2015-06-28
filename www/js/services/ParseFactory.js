@@ -362,7 +362,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     };
 
     ParseService.getAllActionItems = function() {
-        return $http.get('https://api.parse.com/1/classes/contact', {
+        return $http.get('https://api.parse.com/1/classes/action_item?include=contact', {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
