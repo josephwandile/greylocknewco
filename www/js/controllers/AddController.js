@@ -21,10 +21,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
             var location = $scope.input['location'];
 
             // Parsing data correctly
-            var day = $scope.input['met_at'].getDay();
-            var month = $scope.input['met_at'].getMonth();
-            var year = $scope.input['met_at'].getFullYear();
-        	var met_at = year + '-' + month + 'day' + 'T';
+            var met_at = $scope.input['met_at'];
 
             var type = $scope.input['type'].toUpperCase();
 
@@ -52,7 +49,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                                     // Adding meeting with new user's ID
                                     objectId: data.objectId
                                 },
-                                'met_at': Date.parse(met_at),
+                                'met_at': ParseService.createDate(met_at),
                                 'type': type,
                                 'location': location
                             }).success(function(data) {
@@ -61,7 +58,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                                 ParseService.current_meeting_id = data.objectId;
 
                                 // Go to profile questions; meeting will be updated later
-                                $location.path('tab/add/profile');
+                                $location.path('tab/add/profile/'+data.objectId);
 
                             }).error(function(data, status) {
                                 console.log(status)

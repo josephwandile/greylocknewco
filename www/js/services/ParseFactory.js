@@ -309,7 +309,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     ParseService.current_meeting_id = '';
 
     // === WIT.AI
-    ParseService.parseDateAction = function(msg) {
+    ParseService.getDateAction = function(msg) {
         return $.ajax({
             url: 'https://api.wit.ai/message?v=20150628',
             data: {
@@ -320,6 +320,24 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             method: 'GET'
         });
     };
+    ParseService.parseDateActionEntities = function(obj) {
+        return obj.outcomes[0].entities;
+    };
+    ParseService.parseDateActionDate = function(obj) {
+        var dateStr = obj.outcomes[0].entities.datetime[0].value;
+        var date = new Date(dateStr);
+        return {
+            "__type": "Date",
+            "iso": date.toISOString()
+        }
+    };
+
+    ParseService.createDate = function(date) {
+        return {
+            "__type": "Date",
+            "iso": date.toISOString()
+        }
+    }
 
     // === AJAX
     ParseService.getAllContacts = function() {
