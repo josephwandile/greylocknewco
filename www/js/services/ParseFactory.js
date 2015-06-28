@@ -187,7 +187,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 54,
-        text: 'Did they offer to introduce you to anyone?',
+        text: 'Did they offer to introduce you to them?',
         items: [{
             field: 'intro',
             label: 'Yes',
