@@ -65,27 +65,6 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         'location': location
                     }).success(function(data) {
 
-                        // creating action item
-                        var actionItemDate = met_at.getTime() + 60*60*24*1000;
-                        var newDate = new Date(actionItemDate);
-                        var newActionItemData = {
-                            date: ParseService.createDate(newDate),
-                            type: "REMINDER",
-                            text: "You met with " + payload['first_name'] + " yesterday - consider sending a follow up email!",
-                            link: "mailto: " + payload['email'],
-                            contact: {
-                                "__type": "Pointer",
-                                "className": "contact",
-                                "objectId": current_contact_id
-                            }
-                        };
-                        var createActionItemPromise = ParseService.createActionItem(newActionItemData);
-                        createActionItemPromise.success(function(data) {
-                            console.log("action item created with id=" + data.objectId);
-                        }).error(function(data, status, config, headers) {
-                            console.log(headers);
-                        });
-
                         // Added meeting, saving id
                         ParseService.current_meeting_id = data.objectId;
 
@@ -117,7 +96,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                     var newActionItemData = {
                         date: ParseService.createDate(newDate),
                         type: "REMINDER",
-                        text: "You met with " + payload['first_name'] + " yesterday - send a follow up!",
+                        text: "You met " + payload['first_name'] + " yesterday - send a follow up!",
                         link: "mailto:"+current_email,
                         contact: {
                             "__type": "Pointer",
@@ -138,7 +117,6 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                     $location.path('tab/add/meeting/'+data.objectId);
 
                 }).error(function(data, status, config, headers) {
-                    debugger;
                     console.log(status)
                 });
             }

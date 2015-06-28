@@ -534,10 +534,10 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             for (var i = 0; i < contacts.length; i++) {
                 if (contacts[i].hasOwnProperty('last_viewed')) {
                     var last_viewed = new Date(contacts[i].last_viewed.iso);
-                    var month_diff = Math.abs(now.getMonth() - last_viewed.getMonth());
-                    var time_passed = Math.abs(now.getDate() - last_viewed.getDate());
+                    var time_passed = now.getTime() - last_viewed.getTime();
+                    var days_since = Math.floor(time_passed / (24 * 60 * 60 * 1000));
                     var cur_user = contacts[i];
-                    if (time_passed > 19 && month_diff >= 0) {
+                    if (days_since >= 21) {
                         _this.getActionItemByContactId(cur_user.objectId).success(function(data) {
                             if (data.results.length === 0) {
 
@@ -550,7 +550,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
                                     'date': _this.createDate(now),
                                     'type': 'REMINDER',
                                     'link': 'mailto:' + cur_user.email,
-                                    'text': 'You haven\'t reached out to ' + cur_user.first_name + ' ' + cur_user.last_name + ' in ' + time_passed + ' days.' + '\nMaybe shoot them an email?'
+                                    'text': 'You haven\'t reached out to ' + cur_user.first_name + ' in ' + days_since + ' days.' + '\nMaybe shoot them an email?'
                                 }).success(function(date) {
                                     console.log('Email reminder added');
                                 }).error(function(data, status) {
