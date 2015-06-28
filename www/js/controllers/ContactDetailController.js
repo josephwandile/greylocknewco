@@ -11,7 +11,7 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
         "royal-bg"
     ];
 
-    var now = Date.now();
+    var now = new Date();
 
     // Updates 'last viewed' on databse
     ParseService.updateContact($stateParams.contactId, {

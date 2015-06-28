@@ -509,28 +509,37 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         authPromise.success(function(data) {
             var contacts = data.results;
 
-            var now = Date.now();
+            var now = new Date();
 
             for (var i = 0; i < contacts.length; i++) {
-
+                if (contacts[i].hasOwnProperty('last_viewed')) {
+                    var last_viewed = new Date(contacts[i].last_viewed.iso);
+                    var month_diff = Math.abs(now.getMonth() - last_viewed.getMonth());
+                    var time_passed = Math.abs(now.getDate() - last_viewed.getDate());
+                    if (time_passed > 19 && month_diff >= 0) {
+                        _this.createActionItem({
+                            'contact': {
+                                __type: 'Pointer',
+                                className: "contact",
+                                objectId: contacts[i].objectId
+                            },
+                            'date': _this.createDate(now),
+                            'type': 'REMINDER',
+                            'link': 'mailto:' + contacts[i].email,
+                            'text': 'You haven\'t reached out to ' + contacts[i].first_name + ' ' + contacts[i].last_name + ' in ' + time_passed + ' days.' + '\nMaybe shoot them an email?'
+                        }).success(function(date) {
+                            console.log('Email reminder added')
+                        }).error(function(data, status) {
+                            console.log(status);
+                        });
+                    };
+                };
             };
 
         }).error(function(data, status) {
             console.log('Unable to set email reminders: ', status);
         });
-
-
-
-
-
     };
-
-
-
-
-
-
-
 
     return ParseService;
 

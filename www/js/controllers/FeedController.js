@@ -3,11 +3,12 @@ var FeedController = angular.module('FeedController', []);
 FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope, ParseService) {
     console.log('Feed Controller Activated');
 
-    $scope.dismiss = function(item) {
-        console.log(item);
-        $scope.actionItems.splice($scope.actionItems.indexOf(item), 1);
+    // Checks to see that you're staying up to date with contacts
+    ParseService.addEmailReminderActions();
 
-        // TODO(neel): mark the given action item as read in Parse
+    $scope.dismiss = function(item) {
+        $scope.actionItems.splice($scope.actionItems.indexOf(item), 1);
+        // *** TODO(neel): mark the given action item as read in Parse
     };
 
     $scope.actionItems = [];
