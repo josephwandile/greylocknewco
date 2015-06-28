@@ -36,7 +36,8 @@
                         </div>
                         <div class="col col-75">
                             <h3>
-                                {{meeting.location}}<br>
+                                {{meeting.location}}
+                                <br>
                                 <span class="muted" ng-if="meeting.createdAt">{{ meeting.createdAt | date }}</span>
                             </h3>
                         </div>
@@ -47,5 +48,8 @@
 
         <div question-form></div>
 
+        <button class="button button-block button-positive" ng-click="save()">
+            Save changes
+        </button>
     </ion-content>
 </ion-view>
