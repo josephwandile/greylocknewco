@@ -531,39 +531,40 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
             var now = new Date();
 
-            for (var i = 0; i < contacts.length; i++) {
-                if (contacts[i].hasOwnProperty('last_viewed')) {
-                    var last_viewed = new Date(contacts[i].last_viewed.iso);
+            _.each(contacts, function(contact) {
+                if (contact.hasOwnProperty('last_viewed')) {
+                    var last_viewed = new Date(contact.last_viewed.iso);
                     var time_passed = now.getTime() - last_viewed.getTime();
                     var days_since = Math.floor(time_passed / (24 * 60 * 60 * 1000));
-                    var cur_user = contacts[i];
                     if (days_since >= 21) {
-                        _this.getActionItemByContactId(cur_user.objectId).success(function(data) {
-                            if (data.results.length === 0) {
+                        (function(contact, days_since) {
+                            _this.getActionItemByContactId(cur_user.objectId).success(function(data) {
+                                if (data.results.length === 0) {
 
-                                _this.createActionItem({
-                                    'contact': {
-                                        __type: 'Pointer',
-                                        className: "contact",
-                                        objectId: cur_user.objectId
-                                    },
-                                    'date': _this.createDate(now),
-                                    'type': 'REMINDER',
-                                    'link': 'mailto:' + cur_user.email,
-                                    'text': 'You haven\'t reached out to ' + cur_user.first_name + ' in ' + days_since + ' days.' + '\nMaybe shoot them an email?'
-                                }).success(function(date) {
-                                    console.log('Email reminder added');
-                                }).error(function(data, status) {
-                                    console.log(status);
-                                });
+                                    _this.createActionItem({
+                                        'contact': {
+                                            __type: 'Pointer',
+                                            className: "contact",
+                                            objectId: contact.objectId
+                                        },
+                                        'date': _this.createDate(now),
+                                        'type': 'REMINDER',
+                                        'link': 'mailto:' + contact.email,
+                                        'text': 'You haven\'t reached out to ' + contact.first_name + ' in ' + days_since + ' days.' + '\nMaybe shoot them an email?'
+                                    }).success(function(date) {
+                                        console.log('Email reminder added');
+                                    }).error(function(data, status) {
+                                        console.log(status);
+                                    });
 
-                            }
-                        }).error(function(data, status) {
-                            console.log(status);
-                        });
+                                }
+                            }).error(function(data, status) {
+                                console.log(status);
+                            });
+                        })(contact, days_since);
                     }
                 }
-            }
+            });
 
         }).error(function(data, status) {
             console.log('Unable to set email reminders: ', status);
