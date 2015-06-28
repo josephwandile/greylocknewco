@@ -10,23 +10,26 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
         var contacts = [];
 
+        var payload = ParseService.sanitizePayload($scope.input);
+
         var authPromise = ParseService.getAllContacts();
 
         authPromise.success(function(data) {
 
+        	// Used to check if current entry already exists as contact
             var contacts = data.results;
 
-            var first_name = $scope.input['first_name'];
-            var last_name = $scope.input['last_name'];
-            var location = $scope.input['location'];
+            var first_name = payload['first_name'];
+            var last_name = payload['last_name'];
+            var location = payload['location'];
 
-            // Parsing data correctly
-            var day = $scope.input['met_at'].getDay();
-            var month = $scope.input['met_at'].getMonth();
-            var year = $scope.input['met_at'].getFullYear();
+            // Parsing data correctly; this should never be an empty string
+            var day = payload['met_at'].getDay();
+            var month = payload['met_at'].getMonth();
+            var year = payload['met_at'].getFullYear();
         	var met_at = year + '-' + month + 'day' + 'T';
 
-            var type = $scope.input['type'].toUpperCase();
+            var type = payload['type'].toUpperCase();
 
             // Searching to see if contact already exists
             for (var i = 0; i < contacts.length; i++) {

@@ -12,7 +12,7 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
     $scope.submitForm = function() {
 
         // === Standard Payload ===
-        var payload = $scope.input;// ParseService.sanitizePayload($scope.input);
+        var payload = ParseService.sanitizePayload($scope.input);
 
         // === Action Items ===
         // Articles

@@ -4,7 +4,6 @@ QuestionForm.directive('questionForm', [function() {
     return {
         templateUrl: '../templates/question-form.html',
         link: function(scope, element, attrs) {
-            // console.log(scope);
             // modify the given questions
             scope.questions = scope.questions.map(function(question) {
                 // check question's items
@@ -43,9 +42,7 @@ QuestionForm.directive('questionForm', [function() {
                     }
                     scope.input[item.field] = defaultValue;
                 }
-            }
-
-            console.log(scope);
+            };
         }
     };
 }]);

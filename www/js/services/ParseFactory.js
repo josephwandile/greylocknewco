@@ -295,12 +295,15 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     // === Form Sanitization
     ParseService.sanitizePayload = function(payload) {
         for (var prop in payload) {
-            if (!payload[prop]) {
-                payload[prop] = payload[prop].trim();
+            if (payload[prop] !== '') {
+                if (typeof payload[prop] === 'string') {
+                    payload[prop] = payload[prop].trim();
+                }
             } else {
                 console.log(prop, 'not filled out.');
             };
         };
+        return payload;
     };
 
     // === Current Session Data

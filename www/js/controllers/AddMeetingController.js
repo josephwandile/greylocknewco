@@ -11,7 +11,7 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope','$location', 'ParseS
 
     $scope.submitForm = function() {
 
-        var payload = $scope.input;
+        var payload = ParseService.sanitizePayload($scope.input);
 
         var authPromise = ParseService.updateMeeting(current_meeting_id, {
             'data': JSON.stringify(payload)
