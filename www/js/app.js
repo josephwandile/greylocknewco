@@ -101,7 +101,7 @@ var newco = angular.module('newco', [
     }
   })
   .state('tab.add-profile', {
-    url: '/add/profile/:contactId',
+    url: '/add/profile/:contactId/:meetingId',
     views: {
       'tab-add': {
         templateUrl: 'templates/add-profile.html',
@@ -110,7 +110,7 @@ var newco = angular.module('newco', [
     }
   })
   .state('tab.add-meeting', {
-    url: '/add/meeting',
+    url: '/add/meeting/:meetingId',
     views: {
       'tab-add': {
         templateUrl: 'templates/add-meeting.html',

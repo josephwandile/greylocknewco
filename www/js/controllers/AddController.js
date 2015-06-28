@@ -29,12 +29,14 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
             var matches = false;
             var current_contact_id = '';
+            var current_email = '';
 
             // Searching to see if contact already exists
             for (var i = 0; i < contacts.length; i++) {
                 if (contacts[i].first_name === first_name && contacts[i].last_name === last_name) {
                     matches = true;
                     current_contact_id = contacts[i].objectId;
+                    current_email = contacts[i].email;
                 };
             };
 
@@ -48,7 +50,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                 authPromise.success(function(data) {
 
                     // Save current contact ID
-                    ParseService.current_contact_id = data.objectId;
+                    var current_contact_id = data.objectId;
 
                     // Creating meeting to be updated later
                     var authPromise = ParseService.createMeeting({
@@ -63,12 +65,32 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         'location': location
                     }).success(function(data) {
 
+                        // creating action item
+                        var actionItemDate = met_at.getTime() + 60*60*24*1000;
+                        var newDate = new Date(actionItemDate);
+                        var newActionItemData = {
+                            date: ParseService.createDate(newDate),
+                            type: "REMINDER",
+                            text: "You met with " + payload['first_name'] + " yesterday - consider sending a follow up email!",
+                            link: "",
+                            contact: {
+                                "__type": "Pointer",
+                                "className": "contact",
+                                "objectId": current_contact_id
+                            }
+                        };
+                        var createActionItemPromise = ParseService.createActionItem(newActionItemData);
+                        createActionItemPromise.success(function(data) {
+                            console.log("action item created with id=" + data.objectId);
+                        }).error(function(data, status, config, headers) {
+                            console.log(headers);
+                        });
+
                         // Added meeting, saving id
                         ParseService.current_meeting_id = data.objectId;
 
                         // Go to profile questions; meeting will be updated later
-                        $location.path('tab/add/profile/:' + ParseService.current_contact_id);
-
+                        $location.path('tab/add/profile/'+current_contact_id+'/'+data.objectId);
                     }).error(function(data, status) {
                         console.log(status)
                     });
@@ -90,26 +112,33 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                     'type': type,
                     'location': location
                 }).success(function(data) {
-                    // var contact = data.get("contact");
-                    // var email = contact.get("email");
-
-                    // // create and save the action item
-                    // var newActionItemData = {
-                    //   contact: contact,
-                    //   type: "REMINDER",
-                    //   text: "Send a follow up email to " + contact.get('first_name'),
-                    //   link: "mailto:" + email,
-                    //   date: new Date()
-                    // }
-                    // ParseService.createActionItem(newActionItemData);
-
+                    var actionItemDate = met_at.getTime() + 60*60*24*1000;
+                    var newDate = new Date(actionItemDate);
+                    var newActionItemData = {
+                        date: ParseService.createDate(newDate),
+                        type: "REMINDER",
+                        text: "You met with " + payload['first_name'] + " yesterday - send a follow up!",
+                        link: "mailto:"+current_email,
+                        contact: {
+                            "__type": "Pointer",
+                            "className": "contact",
+                            "objectId": current_contact_id
+                        }
+                    };
+                    var createActionItemPromise = ParseService.createActionItem(newActionItemData);
+                    createActionItemPromise.success(function(data) {
+                        console.log("action item created with id=" + data.objectId);
+                    }).error(function(data, status, config, headers) {
+                        console.log(headers);
+                    });
                     // Added meeting
                     ParseService.current_meeting_id = data.objectId;
 
                     // Update meeting here
-                    $location.path('tab/add/meeting');
+                    $location.path('tab/add/meeting/'+data.objectId);
 
-                }).error(function(data, status) {
+                }).error(function(data, status, config, headers) {
+                    debugger;
                     console.log(status)
                 });
             }

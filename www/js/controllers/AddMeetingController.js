@@ -1,10 +1,9 @@
 var AddMeetingController = angular.module('AddMeetingController', []);
 
-AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'ParseService', function($scope, $location, ParseService) {
+AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'ParseService', '$stateParams', function($scope, $location, ParseService, $stateParams) {
     console.log('Controller Activated');
 
-    console.log('Currently updating meeting with ID ', ParseService.current_meeting_id);
-    var current_meeting_id = ParseService.current_meeting_id;
+    console.log('Currently updating meeting with ID ', $stateParams.meetingId);
 
     $scope.questions = ParseService.getQuestions(50, 59);
     $scope.input = {};
@@ -13,7 +12,7 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'Parse
 
         var payload = ParseService.sanitizePayload($scope.input);
 
-        var authPromise = ParseService.updateMeeting(current_meeting_id, {
+        var authPromise = ParseService.updateMeeting($stateParams.meetingId, {
             'data': JSON.stringify(payload)
         });
 
@@ -22,7 +21,8 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'Parse
             // Route back to feed
             $location.path('tab/feed');
 
-        }).error(function(data, status) {
+        }).error(function(data, status, config, headers) {
+            debugger;
             console.log(status);
         });
     };
