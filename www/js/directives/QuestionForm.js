@@ -27,6 +27,15 @@ QuestionForm.directive('questionForm', [function() {
                 }
                 return question;
             });
+
+            for (var i = 0; i < scope.questions.length; i++) {
+                var question = scope.questions[i];
+                for (var j = 0; j < question.items.length; j++) {
+                    scope.input[question.items[j].field] = "";
+                }
+            }
+
+            console.log(scope);
         }
     };
 }]);
