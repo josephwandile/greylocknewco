@@ -9,7 +9,6 @@ var newco = angular.module('newco', [
     // Other Dependencies
     'ionic',
     'monospaced.elastic',
-
     // Controllers
     'ContactsController',
     'FeedController',
@@ -36,7 +35,6 @@ var newco = angular.module('newco', [
     }
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states

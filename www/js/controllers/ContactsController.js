@@ -1,6 +1,6 @@
 var ContactsController = angular.module('ContactsController', []);
 
-ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', function($scope, ParseService) {
+ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', '$location', function($scope, ParseService, $location) {
     console.log('Controller Activated');
 
     $scope.contacts = [];
@@ -33,6 +33,10 @@ ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', functio
     }).error(function(data) {
         console.log(data.error);
     });
+
+    $scope.specificContact= function(contactId) {
+        ParseService.current_contact_id = contactId;
+    };
 
     // var contacts = [{
     //     firstName: "Joe",

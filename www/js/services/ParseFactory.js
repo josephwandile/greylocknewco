@@ -312,16 +312,15 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getContact = function(id) {
-        return $http.get('https://api.parse.com/1/classes/contact' + id, {
+        return $http.get('https://api.parse.com/1/classes/contact/'+id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type': 'application/json'
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
             }
         });
     };
     ParseService.updateContact = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/contact' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/contact/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -348,13 +347,19 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getMeetingsForContactId = function(contactId) {
-        return $http.get('https://api.parse.com/1/classes/meeting', {
+        return $http.get('https://api.parse.com/1/classes/meeting/', {
+            params: {
+                where: {
+                    "contact": {
+                        "__type": "Pointer",
+                        "className": "contact",
+                        "objectId": contactId
+                    }
+                },
+            },
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-            },
-            params: {
-                "contactId": contactId
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
             }
         });
     };
@@ -368,16 +373,15 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getMeeting = function(id) {
-        return $http.get('https://api.parse.com/1/classes/meeting' + id, {
+        return $http.get('https://api.parse.com/1/classes/meeting/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type': 'application/json'
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
             }
         });
     };
     ParseService.updateMeeting = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/meeting' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/meeting/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -399,7 +403,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         return $http.get('https://api.parse.com/1/classes/action_item?include=contact', {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
             }
         });
     };
@@ -413,16 +417,15 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getActionItem = function(id) {
-        return $http.get('https://api.parse.com/1/classes/action_item' + id, {
+        return $http.get('https://api.parse.com/1/classes/action_item/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type': 'application/json'
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
             }
         });
     };
     ParseService.updateActionItem = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/action_item' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/action_item/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
