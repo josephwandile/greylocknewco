@@ -13,64 +13,82 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
         console.log("Test", contacts)
 
-        $scope.first_name = 'Joe';
-        $scope.last_name = 'Kahn';
+        $scope.first_name = 'New';
+        $scope.last_name = 'User';
         $scope.location = 'FB Recruiting Event';
-        $scope.met_at = '2015-06-27T23:31:30.446Z';
+        $scope.met_at = '2015-07-13T';
         $scope.type = 'Recruiting';
 
         for (var i = 0; i < contacts.length; i++) {
             if (contacts[i].first_name !== $scope.first_name || contacts[i].last_name !== $scope.last_name) {
-  				if (i + 1 === contacts.length) {
-  					console.log('Contact does not exist.');
+                if (i + 1 === contacts.length) {
 
-  					// Create new user
-  					// $location.path('/add/profile');
+                    // New contact
+                    var authPromise = ParseService.createContact({
+                        'first_name': $scope.first_name,
+                        'last_name': $scope.last_name
+                    });
 
-  				}
+                    authPromise.success(function(data) {
+
+                        // Save current user ID
+                        ParseService.current_contact_id = data.objectId;
+
+                        // Creating meeting to be updated later
+                        var authPromise = ParseService.createMeeting({
+                            'contact': {
+                                __type: 'Pointer',
+                                className: "contact",
+                                // Adding meeting with new user's ID
+                                objectId: data.objectId
+                            },
+                            'met_at': Date.parse($scope.met_at),
+                            'type': $scope.type,
+                            'location': $scope.location
+                        }).success(function(data) {
+
+                            // Added meeting, saving id
+                            ParseService.current_meeting_id = data.objectId;
+
+                            // Go to profile questions; meeting will be updated later
+                            $location.path('tab/add/profile');
+
+                        }).error(function(data, status) {
+                            console.log(status)
+                        });
+
+                    }).error(function(data, status) {
+                        console.log(status);
+                    });
+                }
             } else {
-            	console.log('Contact exists with ID: ', contacts[i].objectId);
+                // Contact already exists
+                ParseService.current_contact_id = contacts[i].objectId;
 
-            	ParseService.current_contact_id = contacts[i].objectId;
-            	$location.path('tab/add/meeting');
+                var authPromise = ParseService.createMeeting({
+                    'contact': {
+                        __type: 'Pointer',
+                        className: "contact",
+                        objectId: contacts[i].objectId
+                    },
+                    'met_at': Date.parse($scope.met_at),
+                    'type': $scope.type,
+                    'location': $scope.location
+                }).success(function(data) {
+
+                    // Added meeting
+                    ParseService.current_meeting_id = data.objectId;
+
+                    // Update meeting here
+                    $location.path('tab/add/meeting');
+
+                }).error(function(data, status) {
+                    console.log(status)
+                });
             }
         }
 
     }).error(function(data, status) {
         console.log('Something went wrong.');
     });
-
-    // $location.path('/feed');
-
-    /*  // $route.reload();
-      $window.reload();*/
-
-    // check name against backend... 
-
-
-    /*Render the first form. Add logic to route to necessary second form, either to 
-    profile, or to meeting...*/
-
-    // // Profile Creation
-
-    // check: existing Profile
-
-    // 	yes: update contact
-
-    // 		send: meeting data
-
-    // 			type, met_at,
-
-    // 	no: new contact
-
-    // 		create contact
-
-    // 			send: contact data
-
-    // 		get objectID
-
-    // 		send: meeting data
-
-    // 		update contact
-
 }]);
