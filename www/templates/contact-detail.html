@@ -14,17 +14,17 @@
         <div class="list card" ng-repeat="meeting in meetings track by $index">
             <div class="item item-body row">
                 <div ng-switch="meeting.type" class="col col-20">
-                    <div ng-switch-when="RECRUITING" class="avatar calm-bg">
+                    <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
                         <i class="icon ion-ios-people"></i>
                     </div>
-                    <div ng-switch-when="BUSINESS" class="avatar assertive-bg">
+                    <div ng-switch-when="RECRUITING" class="avatar calm-bg">
                         <i class="icon ion-briefcase"></i>
                     </div>
-                    <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
-                        <i class="icon ion-person-stalker"></i>
+                    <div ng-switch-when="NETWORKING" class="avatar assertive-bg">
+                        <i class="icon ion-chatbubbles"></i>
                     </div>
-                    <div ng-switch-when="PITCH" class="avatar energized-bg">
-                        <i class="icon ion-ios-baseball"></i>
+                    <div ng-switch-when="PITCH" class="avatar balanced-bg">
+                        <i class="icon ion-mic-a"></i>
                     </div>
                     <div ng-switch-default class="avatar royal-bg">
                         <i class="icon ion-help"></i>
