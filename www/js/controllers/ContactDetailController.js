@@ -11,13 +11,24 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
         "royal-bg"
     ];
 
-    var authPromise = ParseService.getContact("MyVXW1qXL1");
+    var getContactPromise = ParseService.getContact("qsbGTjQI3I");
 
-    authPromise.success(function(contact) {
+    getContactPromise.success(function(contact) {
         var avatarIndex = Math.floor(Math.random() * avatarColors.length);
         contact.avatarText = contact.first_name.charAt(0) + contact.last_name.charAt(0);
         contact.avatarColor = avatarColors[avatarIndex];
         $scope.contact = contact;
+        var getMeetingsPromise = ParseService.getMeetingsForContactId(contact.objectId);
+        getMeetingsPromise.success(function(data) {
+            $scope.meetings = data.results.map(function(meeting) {
+                var date = new Date(meeting.met_at.iso)
+                meeting.date_formatted = date.getMonth() + "." + date.getDay() + "." + date.getFullYear();
+                if (meeting.type === "RECRUITING") {
+                    meeting.recruiting = true;
+                }
+                return meeting;
+            });
+        });
     }).error(function(data) {
         console.log(data.error);
     });

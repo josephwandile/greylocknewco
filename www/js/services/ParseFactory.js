@@ -332,6 +332,17 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+    ParseService.getMeetingsForContactId = function(contactId) {
+        return $http.get('https://api.parse.com/1/classes/meeting', {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+            },
+            params: {
+                "contactId": contactId
+            }
+        });
+    };
     ParseService.createMeeting = function(data) {
         return $http.post('https://api.parse.com/1/classes/meeting',data, {
             headers: {
