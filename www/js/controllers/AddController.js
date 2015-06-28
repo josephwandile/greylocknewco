@@ -40,30 +40,26 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
             console.log("Test", contacts)
 
             var first_name = $scope.input['first_name'];
+            var last_name = $scope.input['last_name'];
+            var location = $scope.input['location'];
 
-            debugger;
+            // Parsing data correctly
+            var day = $scope.input['met_at'].getDay();
+            var month = $scope.input['met_at'].getMonth();
+            var year = $scope.input['met_at'].getFullYear();
+        	var met_at = year + '-' + month + 'day' + 'T';
 
-            var last_name;
-            var location;
-            var met_at;
-            var type;
+            var type = $scope.input['type'].toUpperCase();
 
-
-
-            // $scope.input['first_name'] = 'New';
-            // $scope.question.inputlast_name = 'User';
-            // $scope.location = 'FB Recruiting Event';
-            // $scope.met_at = '2015-07-13T';
-            // $scope.type = 'Recruiting';
-
+            // Searching to see if contact already exists
             for (var i = 0; i < contacts.length; i++) {
-                if (contacts[i].first_name !== $scope.first_name || contacts[i].last_name !== $scope.last_name) {
+                if (contacts[i].first_name !== first_name || contacts[i].last_name !== last_name) {
                     if (i + 1 === contacts.length) {
 
                         // New contact
                         var authPromise = ParseService.createContact({
-                            'first_name': $scope.first_name,
-                            'last_name': $scope.last_name
+                            'first_name': first_name,
+                            'last_name': last_name
                         });
 
                         authPromise.success(function(data) {
@@ -79,9 +75,9 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                                     // Adding meeting with new user's ID
                                     objectId: data.objectId
                                 },
-                                'met_at': Date.parse($scope.met_at),
-                                'type': $scope.type,
-                                'location': $scope.location
+                                'met_at': Date.parse(met_at),
+                                'type': type,
+                                'location': location
                             }).success(function(data) {
 
                                 // Added meeting, saving id
@@ -108,9 +104,9 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                             className: "contact",
                             objectId: contacts[i].objectId
                         },
-                        'met_at': Date.parse($scope.met_at),
-                        'type': $scope.type,
-                        'location': $scope.location
+                        'met_at': Date.parse(met_at),
+                        'type': type,
+                        'location': location
                     }).success(function(data) {
 
                         // Added meeting
