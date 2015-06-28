@@ -457,7 +457,6 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
-
     return ParseService;
 
 }]).value('PARSE_CREDENTIALS', {
