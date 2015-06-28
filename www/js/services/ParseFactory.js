@@ -285,7 +285,9 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     // returns all questions whose ids in the question dictionary are
     // in the range [min, max].
     ParseService.getQuestions = function(min, max) {
-        return;
+        return questions.filter(function(question){
+            return question.id >= min && question.id <= max;
+        });
     };
 
     ParseService.getAllContacts = function() {
