@@ -4,7 +4,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
     // ******** FORM ONE tab-add.html ************
     var questions = [{
-      // PROFILE INFO
+        // PROFILE INFO
         id: 0,
         text: 'Who did you meet with?',
         items: [{
@@ -17,7 +17,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             type: 'text'
         }]
     }, {
-      // MEETING INFO
+        // MEETING INFO
         id: 1,
         text: 'Where did you meet?',
         items: [{
@@ -278,7 +278,17 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         '60': 'position'
     };
 
-    var ParseService = {}
+    var ParseService = {};
+
+    ParseService.questions = questions;
+
+    // returns all questions whose ids in the question dictionary are
+    // in the range [min, max].
+    ParseService.getQuestions = function(min, max) {
+        return questions.filter(function(question){
+            return question.id >= min && question.id <= max;
+        });
+    };
 
     ParseService.current_contact_id = '';
 
@@ -302,28 +312,29 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getContact = function(id) {
-        return $http.get('https://api.parse.com/1/classes/contact/'+id, {
+        return $http.get('https://api.parse.com/1/classes/contact' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
             }
         });
     };
     ParseService.updateContact = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/contact/'+id,data, {
+        return $http.put('https://api.parse.com/1/classes/contact' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
     ParseService.deleteContact = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/contact/'+id, {
+        return $http.delete('https://api.parse.com/1/classes/contact' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -346,28 +357,29 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getMeeting = function(id) {
-        return $http.get('https://api.parse.com/1/classes/meeting'+id, {
+        return $http.get('https://api.parse.com/1/classes/meeting' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
             }
         });
     };
     ParseService.updateMeeting = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/meeting'+id,data, {
+        return $http.put('https://api.parse.com/1/classes/meeting' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
     ParseService.deleteMeeting = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/meeting'+id, {
+        return $http.delete('https://api.parse.com/1/classes/meeting' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -390,35 +402,36 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getActionItem = function(id) {
-        return $http.get('https://api.parse.com/1/classes/action_item'+id, {
+        return $http.get('https://api.parse.com/1/classes/action_item' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'Content-Type': 'application/json'
             }
         });
     };
     ParseService.updateActionItem = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/action_item'+id,data, {
+        return $http.put('https://api.parse.com/1/classes/action_item' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
     ParseService.deleteActionItem = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/action_item'+id, {
+        return $http.delete('https://api.parse.com/1/classes/action_item' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
 
     return ParseService;
 
-}]).value('PARSE_CREDENTIALS',{
+}]).value('PARSE_CREDENTIALS', {
     APP_ID: 'VurVg5WSqG0AH9ui3Avf8wEBJxLEUZ1FgdvxXeKL',
-    REST_API_KEY:'sThhgc4cHiS5yJEN5tjwYQRT3HhlyvnkAfuOwO5R'
+    REST_API_KEY: 'sThhgc4cHiS5yJEN5tjwYQRT3HhlyvnkAfuOwO5R'
 });

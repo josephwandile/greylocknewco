@@ -8,6 +8,7 @@
 var newco = angular.module('newco', [
     // Other Dependencies
     'ionic',
+    'monospaced.elastic',
 
     // Controllers
     'ContactsController',

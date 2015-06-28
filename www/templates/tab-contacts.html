@@ -2,14 +2,14 @@
     <ion-content>
         <ion-list>
             <div class="card" ng-repeat="contact in contacts">
-                <ion-item href="#/contacts/{{ contact.firstName }}">
-                    <div class="row">
+                <ion-item href="#/tab/contacts/{{ contact.first_name }}">
+                    <div class="row item-text-wrap">
                         <div class="col col-25">
                             <div class="avatar {{ contact.avatarColor }}">
                                 {{ contact.avatarText }}
                             </div>
                         </div>
-                        <div class="col col-80">
+                        <div class="col col-75">
                             <h2 class="no-margin-top no-margin-bottom big">{{ contact.first_name }} {{ contact.last_name }}</h2>
                             <h3 class="no-margin-top no-margin-bottom">{{ contact.position }} at {{ contact.company }}</h3>
                         </div>
@@ -17,10 +17,5 @@
                 </ion-item>
             </div>
         </ion-list>
-        <!-- <div class="list card" ng-repeat="contact in contacts">
-            <a href="#/contacts/{{ contact.firstName }}" class="no-underline">
-
-            </a>
-        </div> -->
     </ion-content>
 </ion-view>
