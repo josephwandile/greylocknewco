@@ -152,8 +152,8 @@ ParseFactory.factory('ParseService', function() {
         }]
     }, {
         id: 52,
-        text: "Did they suggest that you meet or talk with someone?"
-        items[{
+        text: "Did they suggest that you meet or talk with someone?",
+        items: [{
             field: 'suggestion',
             label: 'Yes',
             type: 'radio'
