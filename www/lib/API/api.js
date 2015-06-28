@@ -40,15 +40,15 @@ function getAllFromTable(TableName, callback) {
 }
 
 function getAllActionItems(callback) {
-  fetchAllActionItems(ActionItem, callback);
+  getAllFromTable(ActionItem, callback);
 }
 
 function getAllContacts(callback) {
-  fetchAllContacts(Contact, callback);
+  getAllFromTable(Contact, callback);
 }
 
 function getAllMeetings(callback) {
-  fetchAllMeetings(Meeting, callback);
+  getAllFromTable(Meeting, callback);
 }
 
 function getEntryByID(TableName, id, callback) {
@@ -78,6 +78,10 @@ function getMeetingByID(contact_id, callback) {
 /**
  * Methods for saving objects to Parse
  * -----------------------------------
+ * Each method takes a callback function.
+ * On success, we fire callback(results, null)
+ * and failure, we fire callback(null, error)
+ * 
  * save[ActionItem|Contact|Meeting]
  *   saveObject
  */
@@ -91,20 +95,19 @@ function saveObject(TableName, data, callback) {
     error: function(result, error) {
       callback(null, error);
     }
-  };
+  });
 }
 
 /** Saves an action item in the format:
- {
-  contact: [object Object] // a full Parse contact object
-  type: "REMINDER", // {"REMINDER", "TIP"}
-  text: "Joe is back in town",
-  link: "tel:1231231234" // some actionable link that a phone can access
-  date: [date Object] // JavaScript date object
- }
- *
+ *  
+ *  {
+ *    contact: [object Object]  // a full Parse contact object
+ *    type: "REMINDER",         // {"REMINDER", "TIP"}
+ *    text: "Joe is in the Bay",
+ *    link: "tel:1231231234"    // Actionable link
+ *    date: [date Object]       // Date at which the item is relevant
+ *  }
  */
-
 function saveActionItem(data, callback) {
   saveObject(ActionItem, data, function(result, error) {
     if (result) console.log("ActionItem created with ID " + result.id);
@@ -112,19 +115,18 @@ function saveActionItem(data, callback) {
   });
 }
 
-/**
- * Saves a contact
- * @param  {Object} data of the meeting to save in the following format:
- {
-  first_name: "Neel",
-  last_name: "Mehta",
-  email: "neelmehta@college.harvard.edu",
-  phone: "1234567890",
-  profile: "http://hathix.com"
- }
+/** Saves a contact in the format
+ * 
+ * {
+ *   first_name: "Neel",
+ *   last_name: "Mehta",
+ *   email: "neelmehta@college.harvard.edu",
+ *   phone: "1234567890",
+ *   profile: "http://hathix.com"
+ * }
  */
 
-function saveContact(data) {
+function saveContact(data, callback) {
   saveObject(Contact, data, function(result, error) {
     if (result) console.log("Contact created with ID " + result.id);
     callback(result, error);
@@ -132,16 +134,15 @@ function saveContact(data) {
 }
 
 
-/**
- * Saves a meeting and creates action items
- * @param  {Object} data of the meeting to save in the following format:
- {
-  contact: [object Object], // representing a contact object
-  met_at: [date Object], // Javascript Date object
- }
+/** Saves a meeting in the following format and creates action items 
+ * 
+ * {
+ *   contact: [object Object], // representing a contact object
+ *   met_at: [date Object], // Javascript Date object
+ * }
  */
 
-function saveMeeting(data) {
+function saveMeeting(data, callback) {
   saveObject(Meeting, data, function(result, error) {
     if (result) {
       console.log("Meeting created with ID " + result.id);
@@ -172,7 +173,7 @@ function createActionItemsFromMeeting(data) {
 }
 
 function main() {
-  // getAllActionItems()
+  getAllActionItems(console.log)
 
   // Grabs Joe and saves a meeting with him
   // getContactByID("qsbGTjQI3I", function(joeContact) {
