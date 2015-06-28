@@ -1,15 +1,26 @@
 var ContactDetailController = angular.module('ContactDetailController', []);
 
 ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService', '$stateParams', function($scope, ParseService, $stateParams) {
-  console.log('Controller Activated');
+    console.log('Controller Activated');
 
-  var avatarColors = [
+    var avatarColors = [
         "positive-bg",
         "calm-bg",
         "balanced-bg",
         "assertive-bg",
         "royal-bg"
     ];
+
+    var now = Date.now();
+    var day = now.getDay();
+    var month = now.getMonth();
+    var year = now.getFullYear();
+    var last_viewed = year + '-' + month + '-' + day + 'T';
+
+    // Updates 'last viewed' on databse
+    ParseService.updateContact($stateParams.contactId, {
+        'last_viewed': last_viewed
+    });
 
     var getContactPromise = ParseService.getContact($stateParams.contactId);
     getContactPromise.success(function(contact) {
