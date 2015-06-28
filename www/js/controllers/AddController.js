@@ -65,6 +65,8 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         'location': location
                     }).success(function(data) {
 
+                      contact = data.get('contact');
+
                       // create and save the action item
                       var newActionItemData = {
                         contact: contact,
