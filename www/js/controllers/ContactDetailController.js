@@ -34,6 +34,13 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
             $scope.input = JSON.parse(contact.data);
         }
 
+        // remove empty items
+        _.each($scope.questions, function(question){
+            question.items = _.filter(question.items, function(item){
+                return $scope.input[item.field] !== "";
+            });
+        });
+
         var getMeetingsPromise = ParseService.getMeetingsForContactId($stateParams.contactId);
         getMeetingsPromise.success(function(data) {
             $scope.meetings = data.results.map(function(meeting) {
