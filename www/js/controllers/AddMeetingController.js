@@ -45,4 +45,5 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope', 'ParseService', fun
         console.log(status);
     });
 
+  $scope.questions = ParseService.getQuestions(50, 59);
 }]);

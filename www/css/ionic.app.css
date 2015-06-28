@@ -7702,3 +7702,6 @@ a.button {
 
 .no-underline {
   text-decoration: none; }
+
+.wrap {
+  white-space: normal !important; }
