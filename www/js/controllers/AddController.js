@@ -65,17 +65,17 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         'location': location
                     }).success(function(data) {
 
-                      contact = data.get('contact');
+                      // contact = data.get('contact');
 
-                      // create and save the action item
-                      var newActionItemData = {
-                        contact: contact,
-                        type: "REMINDER",
-                        text: "Send a follow-up email to " + contact.get('first_name'),
-                        link: "mailto:" + email,
-                        date: new Date()
-                      }
-                      ParseService.createActionItem(newActionItemData);
+                      // // create and save the action item
+                      // var newActionItemData = {
+                      //   contact: contact,
+                      //   type: "REMINDER",
+                      //   text: "Send a follow-up email to " + contact.get('first_name'),
+                      //   link: "mailto:" + email,
+                      //   date: new Date()
+                      // }
+                      // ParseService.createActionItem(newActionItemData);
 
                         // Added meeting
                         ParseService.current_meeting_id = data.objectId;
