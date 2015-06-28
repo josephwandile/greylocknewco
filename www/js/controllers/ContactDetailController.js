@@ -18,21 +18,25 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
         'last_viewed': ParseService.createDate(now);
     });
 
+    // get only the questions specific to this person's profile
+    $scope.questions = ParseService.getQuestionsSpecific([5, 7, 8, 9, 10]);
+    $scope.input = {};
+
     var getContactPromise = ParseService.getContact($stateParams.contactId);
     getContactPromise.success(function(contact) {
+        $scope.contact = contact;
+
         var avatarIndex = Math.floor(Math.random() * avatarColors.length);
         contact.avatarText = contact.first_name.charAt(0) + contact.last_name.charAt(0);
         contact.avatarColor = avatarColors[avatarIndex];
-        $scope.contact = contact;
+
+        if (contact.data) {
+            $scope.questions = JSON.parse(contact.data);
+        }
+
         var getMeetingsPromise = ParseService.getMeetingsForContactId($stateParams.contactId);
         getMeetingsPromise.success(function(data) {
             $scope.meetings = data.results.map(function(meeting) {
-                if (meeting.met_at) {
-                    var date = new Date(meeting.met_at.iso)
-                    meeting.date_formatted = date.getMonth() + "." + date.getDay() + "." + date.getFullYear();
-                } else {
-                    meeting.data_formatted = "";
-                }
                 return meeting;
             });
         });
