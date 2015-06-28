@@ -20,7 +20,10 @@ var newco = angular.module('newco', [
     'AddMeetingController',
 
     // Services
-    'ParseFactory'
+    'ParseFactory',
+
+    // Directives
+    'QuestionForm'
 ])
 
 .run(function($ionicPlatform) {
