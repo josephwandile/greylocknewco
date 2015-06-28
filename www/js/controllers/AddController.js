@@ -11,6 +11,26 @@ AddController.controller('AddCtrl', ['$scope', 'ParseService', function($scope) 
   // 		do: 4, 5
   // }
 
-  // Profile Creation
+  // // Profile Creation
+
+  // check: existing Profile
+
+  // 	yes: update contact 
+
+  // 		send: meeting data
+
+  // 			type, met_at, 
+
+  // 	no: new contact
+
+  // 		create contact
+
+  // 			send: contact data
+
+  // 		get objectID
+
+  // 		send: meeting data
+
+  // 		update contact 
 
 }]);

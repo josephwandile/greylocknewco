@@ -1,26 +1,11 @@
 var ContactsController = angular.module('ContactsController', []);
 
-ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', function($scope) {
+ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', function($scope, ParseService) {
     console.log('Controller Activated');
 
-    var contacts = [{
-        firstName: "Joe",
-        lastName: "Kahn",
-        title: "Software Engineer",
-        company: "Google Inc."
-    }, {
-        firstName: "Neel",
-        lastName: "Mehta",
-        title: "Designer",
-        company: "Apple Inc."
-    }, {
-        firstName: "Sherman",
-        lastName: "Leung",
-        title: "Project Manager",
-        company: "Facebook Inc."
-    }];
+    $scope.contacts = [];
 
-    avatarColors = [
+    var avatarColors = [
         "positive-bg",
         "calm-bg",
         "balanced-bg",
@@ -28,14 +13,42 @@ ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', functio
         "royal-bg"
     ];
 
-    $scope.contacts = contacts.map(function(contact) {
-        // add a random color for their avatar
-        var avatarIndex = Math.floor(Math.random() * avatarColors.length);
-        contact.avatarColor = avatarColors[avatarIndex];
+    var authPromise = ParseService.getAllContacts();
 
-        // generate their avatar text: their first initialis
-        contact.avatarText = contact.firstName.charAt(0) + contact.lastName.charAt(0);
+    authPromise.success(function(data) {
 
-        return contact;
+        var contacts = data.results;
+
+        $scope.contacts = contacts.map(function(contact) {
+            // add a random color for their avatar
+            var avatarIndex = Math.floor(Math.random() * avatarColors.length);
+            contact.avatarColor = avatarColors[avatarIndex];
+
+            // generate their avatar text: their first initialis
+            contact.avatarText = contact.first_name.charAt(0) + contact.last_name.charAt(0);
+
+            return contact;
+        });
+
+    }).error(function() {
+        console.log('We done fucked up.');
     });
+
+    // var contacts = [{
+    //     firstName: "Joe",
+    //     lastName: "Kahn",
+    //     title: "Software Engineer",
+    //     company: "Google Inc."
+    // }, {
+    //     firstName: "Neel",
+    //     lastName: "Mehta",
+    //     title: "Designer",
+    //     company: "Apple Inc."
+    // }, {
+    //     firstName: "Sherman",
+    //     lastName: "Leung",
+    //     title: "Project Manager",
+    //     company: "Facebook Inc."
+    // }];
+
 }]);

@@ -1,6 +1,6 @@
 var ParseFactory = angular.module('ParseFactory', [])
 
-ParseFactory.factory('ParseService', function() {
+ParseFactory.factory('ParseService', ['$http', function($http) {
 
     var questions = [{
         id: 0,
@@ -60,6 +60,14 @@ ParseFactory.factory('ParseService', function() {
         }, {
             field: 'past_work',
             label: 'Previously',
+            type: 'text'
+        }]
+    }, {
+        id: 60,
+        text: 'What do they do?',
+        items: [{
+            field: 'position',
+            label: 'e.g. Investor, Software Engineer',
             type: 'text'
         }]
     }, {
@@ -152,7 +160,7 @@ ParseFactory.factory('ParseService', function() {
         }]
     }, {
         id: 52,
-        text: "Did they suggest that you meet or talk with someone?",
+        text: 'Did they suggest that you meet or talk with someone?',
         items: [{
             field: 'suggestion',
             label: 'Yes',
@@ -218,7 +226,7 @@ ParseFactory.factory('ParseService', function() {
             label: 'e.g. email me in a week; apply for X',
             type: 'textarea'
         }]
-    },{
+    }, {
         id: 59,
         text: 'Anything else come up in the meeting?',
         items: [{
@@ -259,23 +267,31 @@ ParseFactory.factory('ParseService', function() {
         '57': 'advice',
         // Provide reminders
         '58': 'instructions',
-        '59': 'meeting_notes'
+        '59': 'meeting_notes',
+        '60': 'position'
     };
 
-    return {
-        all: function() {
-            return questions;
-        },
-        remove: function(question) {
-            questions.splice(questions.indexOf(question), 1);
-        },
-        get: function(questionId) {
-            for (var i = 0; i < questions.length; i++) {
-                if (questions[i].id === parseInt(questionId)) {
-                    return questions[i];
-                }
+    var ParseService = {}
+
+    ParseService.getAllContacts = function() {
+        return $http.get('https://api.parse.com/1/classes/contact', {
+            headers: {
+                'X-Parse-Application-Id': 'VurVg5WSqG0AH9ui3Avf8wEBJxLEUZ1FgdvxXeKL',
+                'X-Parse-REST-API-Key': 'sThhgc4cHiS5yJEN5tjwYQRT3HhlyvnkAfuOwO5R',
             }
-            return null;
-        }
+        });
     };
-});
+
+    // ParseService.createNewContact = function() {
+
+    // }
+
+    // ParseService.createNewMeeting = function() {
+
+    // }
+
+
+
+    return ParseService;
+
+}]);
