@@ -30,8 +30,8 @@ ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', functio
             return contact;
         });
 
-    }).error(function() {
-        console.log('We done fucked up.');
+    }).error(function(data) {
+        console.log(data.error);
     });
 
     // var contacts = [{
