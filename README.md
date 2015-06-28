@@ -11,11 +11,9 @@
 
 #### The app prompts you to log your meetings, either with existing contacts, or new contacts. The questions are designed to provide strong talking points for future interactions, and are used to make actionable suggestions: all displayed in your feed.
 
-> We've found an article that Joe Blogs might like. Have a read, and consider sending it along to him. 
+> We've found an article that Joe Blogs might like. Have a read, and consider sending it along to him?
 
 > You haven't spoken to Bob in a while. He's scheduled to be in Boston in a week. Send an email to meet up? 
-
-
 
 # Getting started
 
@@ -24,3 +22,5 @@
 ```ionic serve```
 ## view on ios and android side by side
 ```ionic serve --lab```
+
+#### Add new dependencies using gulp in the standard way.
