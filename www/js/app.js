@@ -9,7 +9,6 @@ var newco = angular.module('newco', [
     // Other Dependencies
     'ionic',
     'monospaced.elastic',
-
     // Controllers
     'ContactsController',
     'FeedController',
@@ -25,7 +24,6 @@ var newco = angular.module('newco', [
     // Directives
     'QuestionForm'
 ])
-
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -39,7 +37,6 @@ var newco = angular.module('newco', [
     }
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -86,9 +83,9 @@ var newco = angular.module('newco', [
       }
     })
     .state('tab.meeting-detail', {
-      url: '/meetings/:meetingId',
+      url: '/meeting/:meetingId',
       views: {
-        'tab-meetings': {
+        'tab-contacts': {
           templateUrl: 'templates/meeting-detail.html',
           controller: 'MeetingDetailCtrl'
         }
@@ -104,7 +101,7 @@ var newco = angular.module('newco', [
     }
   })
   .state('tab.add-profile', {
-    url: '/add/profile',
+    url: '/add/profile/:contactId/:meetingId',
     views: {
       'tab-add': {
         templateUrl: 'templates/add-profile.html',
@@ -113,7 +110,7 @@ var newco = angular.module('newco', [
     }
   })
   .state('tab.add-meeting', {
-    url: '/add/meeting',
+    url: '/add/meeting/:meetingId',
     views: {
       'tab-add': {
         templateUrl: 'templates/add-meeting.html',

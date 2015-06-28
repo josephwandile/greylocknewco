@@ -7697,11 +7697,12 @@ a.button {
 .big {
   font-size: 22px !important; }
 
-.grey {
-  color: #aaa; }
+.muted {
+  color: #999; }
 
 .no-underline {
   text-decoration: none; }
 
-.wrap {
-  white-space: normal !important; }
+.block-center {
+  display: block;
+  margin: auto; }

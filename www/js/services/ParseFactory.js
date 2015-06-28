@@ -6,7 +6,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     var questions = [{
         // PROFILE INFO
         id: 0,
-        text: 'Who did you meet with?',
+        text: 'Who did you meet?',
         items: [{
             field: 'first_name',
             label: 'First Name',
@@ -19,7 +19,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     }, {
         // MEETING INFO
         id: 1,
-        text: 'Where did you meet?',
+        text: 'Where?',
         items: [{
             field: 'location',
             label: 'Location',
@@ -68,7 +68,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             type: 'text'
         }]
     }, {
-        id: 60,
+        id: 11,
         text: 'What do they do?',
         items: [{
             field: 'position',
@@ -85,7 +85,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 6,
-        text: 'Want to add their contact information?',
+        text: 'What contact information of theirs did you get?',
         items: [{
             field: 'email',
             label: 'Email',
@@ -108,7 +108,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             type: 'checkbox'
         }, {
             field: 'work_field',
-            label: 'BioTech/Health Tech',
+            label: 'Biotech/Health Tech',
             type: 'checkbox'
         }, {
             field: 'work_field',
@@ -128,7 +128,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'Did they mention any hobbies?',
         items: [{
             field: 'hobbies',
-            label: 'List them here!',
+            label: 'These are great to start conversations.',
             type: 'textarea'
         }]
     }, {
@@ -144,7 +144,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'How often are they in your area?',
         items: [{
             field: 'travel_plans',
-            label: 'e.g. In SF on Monday and Tuesday every second week',
+            label: 'e.g. In SF this Tues & every Mon',
             type: 'text'
         }]
     }, {
@@ -162,7 +162,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'What did you laugh about?',
         items: [{
             field: 'laugh',
-            label: 'Probably good to reference these later',
+            label: 'Probably good to reference these later!',
             type: 'textarea'
         }]
     }, {
@@ -187,7 +187,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 54,
-        text: 'Did they offer to introduce you?',
+        text: 'Did they offer to introduce you to them?',
         items: [{
             field: 'intro',
             label: 'Yes',
@@ -199,7 +199,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 55,
-        text: 'Did they suggest anything to read',
+        text: 'Did they suggest anything to read?',
         items: [{
             field: 'suggest_read',
             label: 'Yes',
@@ -211,7 +211,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         }]
     }, {
         id: 56,
-        text: 'Which did they suggest to read?',
+        text: 'What did they suggest to read?',
         items: [{
             field: 'suggested_to_read',
             label: 'List or link them here',
@@ -222,12 +222,12 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'What useful advice did they give you?',
         items: [{
             field: 'advice',
-            label: 'Write any advice here',
+            label: 'Life or career tips',
             type: 'textarea'
         }]
     }, {
         id: 58,
-        text: 'Did they give you any instructions??',
+        text: 'Did they give you any instructions?',
         items: [{
             field: 'instructions',
             label: 'e.g. email me in a week; apply for X',
@@ -238,7 +238,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         text: 'Anything else come up in the meeting?',
         items: [{
             field: 'meeting_note',
-            label: 'Meeting Notes',
+            label: 'Miscellaneous Notes',
             type: 'textarea'
         }]
     }];
@@ -250,6 +250,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         '2': 'met_at',
         '3': 'type',
         '4': 'work_info',
+        '11': 'position',
         '5': 'achievements',
         '6': 'contact_info',
         // Links Sector
@@ -275,25 +276,81 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         // Provide reminders
         '58': 'instructions',
         '59': 'meeting_notes',
-        '60': 'position'
+
     };
 
     var ParseService = {};
 
+    // === Form Rendering
     ParseService.questions = questions;
 
     // returns all questions whose ids in the question dictionary are
     // in the range [min, max].
     ParseService.getQuestions = function(min, max) {
-        return questions.filter(function(question){
+        return questions.filter(function(question) {
             return question.id >= min && question.id <= max;
         });
     };
 
+    // returns all questions whose ids in the question dictionary are
+    // in the given list.
+    ParseService.getQuestionsSpecific = function(allowed) {
+        return questions.filter(function(question) {
+            return allowed.indexOf(question.id) > -1;
+        });
+    };
+
+    // === Form Sanitization
+    ParseService.sanitizePayload = function(payload) {
+        for (var prop in payload) {
+            if (payload[prop] !== '') {
+                if (typeof payload[prop] === 'string') {
+                    payload[prop] = payload[prop].trim();
+                }
+            } else {
+                console.log(prop, 'not filled out.');
+            }
+        }
+        return payload;
+    };
+
+    // === Current Session Data
     ParseService.current_contact_id = '';
 
     ParseService.current_meeting_id = '';
 
+    // === WIT.AI
+    ParseService.getDateAction = function(msg) {
+        return $.ajax({
+            url: 'https://api.wit.ai/message?v=20150628',
+            data: {
+                'q': msg,
+                'access_token': 'W4Y5MH4L2BAYD7KSPZIXQUUPRMV5AP5Y'
+            },
+            dataType: 'jsonp',
+            method: 'GET'
+        });
+    };
+    ParseService.parseDateActionEntities = function(obj) {
+        return obj.outcomes[0].entities;
+    };
+    ParseService.parseDateActionDate = function(obj) {
+        var dateStr = obj.outcomes[0].entities.datetime[0].value;
+        var date = new Date(dateStr);
+        return {
+            "__type": "Date",
+            "iso": date.toISOString()
+        };
+    };
+
+    ParseService.createDate = function(date) {
+        return {
+            "__type": "Date",
+            "iso": date.toISOString()
+        };
+    };
+
+    // === AJAX
     ParseService.getAllContacts = function() {
         return $http.get('https://api.parse.com/1/classes/contact', {
             headers: {
@@ -303,16 +360,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.createContact = function(data) {
-        return $http.post('https://api.parse.com/1/classes/contact',data, {
-            headers: {
-                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
-            }
-        });
-    };
-    ParseService.getContact = function(id) {
-        return $http.get('https://api.parse.com/1/classes/contact' + id, {
+        return $http.post('https://api.parse.com/1/classes/contact', data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -320,8 +368,16 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+    ParseService.getContact = function(id) {
+        return $http.get('https://api.parse.com/1/classes/contact/' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+            }
+        });
+    };
     ParseService.updateContact = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/contact' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/contact/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -330,7 +386,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteContact = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/contact' + id, {
+        return $http.delete('https://api.parse.com/1/classes/contact/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -348,27 +404,24 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getMeetingsForContactId = function(contactId) {
-        return $http.get('https://api.parse.com/1/classes/meeting', {
+        return $http.get('https://api.parse.com/1/classes/meeting/', {
+            params: {
+                where: {
+                    "contact": {
+                        "__type": "Pointer",
+                        "className": "contact",
+                        "objectId": contactId
+                    }
+                },
+            },
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-            },
-            params: {
-                "contactId": contactId
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
             }
         });
     };
     ParseService.createMeeting = function(data) {
-        return $http.post('https://api.parse.com/1/classes/meeting',data, {
-            headers: {
-                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
-            }
-        });
-    };
-    ParseService.getMeeting = function(id) {
-        return $http.get('https://api.parse.com/1/classes/meeting' + id, {
+        return $http.post('https://api.parse.com/1/classes/meeting', data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -376,8 +429,16 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+    ParseService.getMeeting = function(id) {
+        return $http.get('https://api.parse.com/1/classes/meeting/' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+            }
+        });
+    };
     ParseService.updateMeeting = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/meeting' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/meeting/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -386,7 +447,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteMeeting = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/meeting' + id, {
+        return $http.delete('https://api.parse.com/1/classes/meeting/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -399,21 +460,15 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         return $http.get('https://api.parse.com/1/classes/action_item?include=contact', {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+            },
+            params: {
+                order: "-date"
             }
         });
     };
     ParseService.createActionItem = function(data) {
-        return $http.post('https://api.parse.com/1/classes/action_item',data, {
-            headers: {
-                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
-                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
-            }
-        });
-    };
-    ParseService.getActionItem = function(id) {
-        return $http.get('https://api.parse.com/1/classes/action_item' + id, {
+        return $http.post('https://api.parse.com/1/classes/action_item', data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -421,8 +476,33 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+    ParseService.getActionItem = function(id) {
+        return $http.get('https://api.parse.com/1/classes/action_item/' + id, {
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+            }
+        });
+    };
+    ParseService.getActionItemByContactId = function(contactId) {
+        return $http.get('https://api.parse.com/1/classes/action_item/', {
+            params: {
+                where: {
+                    "contact": {
+                        "__type": "Pointer",
+                        "className": "contact",
+                        "objectId": contactId
+                    }
+                },
+            },
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+            }
+        });
+    };
     ParseService.updateActionItem = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/action_item' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/action_item/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -431,12 +511,63 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteActionItem = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/action_item' + id, {
+        return $http.delete('https://api.parse.com/1/classes/action_item/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
                 'Content-Type': 'application/json'
             }
+        });
+    };
+
+    // === REMINDERS TO STAY IN TOUCH
+    ParseService.addEmailReminderActions = function() {
+        _this = this;
+
+        var authPromise = _this.getAllContacts();
+
+        authPromise.success(function(data) {
+            var contacts = data.results;
+
+            var now = new Date();
+
+            _.each(contacts, function(contact) {
+                if (contact.hasOwnProperty('last_viewed')) {
+                    var last_viewed = new Date(contact.last_viewed.iso);
+                    var time_passed = now.getTime() - last_viewed.getTime();
+                    var days_since = Math.floor(time_passed / (24 * 60 * 60 * 1000));
+                    if (days_since >= 21) {
+                        (function(contact, days_since) {
+                            _this.getActionItemByContactId(cur_user.objectId).success(function(data) {
+                                if (data.results.length === 0) {
+
+                                    _this.createActionItem({
+                                        'contact': {
+                                            __type: 'Pointer',
+                                            className: "contact",
+                                            objectId: contact.objectId
+                                        },
+                                        'date': _this.createDate(now),
+                                        'type': 'REMINDER',
+                                        'link': 'mailto:' + contact.email,
+                                        'text': 'You haven\'t reached out to ' + contact.first_name + ' in ' + days_since + ' days.' + '\nMaybe shoot them an email?'
+                                    }).success(function(date) {
+                                        console.log('Email reminder added');
+                                    }).error(function(data, status) {
+                                        console.log(status);
+                                    });
+
+                                }
+                            }).error(function(data, status) {
+                                console.log(status);
+                            });
+                        })(contact, days_since);
+                    }
+                }
+            });
+
+        }).error(function(data, status) {
+            console.log('Unable to set email reminders: ', status);
         });
     };
 

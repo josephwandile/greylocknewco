@@ -4,7 +4,6 @@ QuestionForm.directive('questionForm', [function() {
     return {
         templateUrl: '../templates/question-form.html',
         link: function(scope, element, attrs) {
-            console.log(scope);
             // modify the given questions
             scope.questions = scope.questions.map(function(question) {
                 // check question's items
@@ -27,6 +26,23 @@ QuestionForm.directive('questionForm', [function() {
                 }
                 return question;
             });
+
+            // default all form fields to empty strings,
+            // or today for dates
+            for (var i = 0; i < scope.questions.length; i++) {
+                var question = scope.questions[i];
+                for (var j = 0; j < question.items.length; j++) {
+                    var item = question.items[j];
+                    var defaultValue = "";
+                    if(item.type === "date"){
+                        defaultValue = new Date();
+                    }
+                    else{
+                        defaultValue = "";
+                    }
+                    scope.input[item.field] = defaultValue;
+                }
+            };
         }
     };
 }]);
