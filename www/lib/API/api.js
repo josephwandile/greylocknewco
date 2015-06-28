@@ -46,24 +46,106 @@ function fetchAllActionItems() {
 /**
  * Converts a specified contact ID into a contact object
  * @param  {string} contact_id the id of the contact to fetch
- * @return {Contact}            the full contact object, or null if invalid
+ * @param  {callback} function to execute after fetching the contact object
  */
-function getContactByID(contact_id) {
+function getContactByID(contact_id, callback) {
   var query = new Parse.Query(Contact);
   // Add constraints
   query.equalTo("objectId", contact_id);
   query.limit(1);
   query.first({
-    success: function(object) {
-      return object;
-    },
-    error: function(error) {
-      alert("Error: " + error.code + " " + error.message);
-    }
+   success: function(object) {
+      console.log(object);
+      callback(object)
+   },
+   error: function(error) {
+    console.log(error);
+   }
   });
-  return null;
 }
 
+/**
+ * Saves a meeting and creates action items
+ * @param  {Object} data of the meeting to save in the following format:
+ {
+  first_name: "Neel",
+  last_name: "Mehta",
+  email: "neelmehta@college.harvard.edu",
+  phone: "1234567890",
+  profile: "http://hathix.com"
+ }
+ */
+
+function saveContact(data) {
+  var contact = new Contact();
+  contact.save(data).then(function(object) {
+    console.log(object.get(first_name) + " " + object.get(last_name) + "saved with "
+                + "contact id " + object.id);
+    return object.id;
+  });
+}
+
+
+/**
+ * Saves a meeting and creates action items
+ * @param  {Object} data of the meeting to save in the following format:
+ {
+  contact: [object Object], // representing a contact object
+  met_at: [date Object], // Javascript Date object
+ }
+ */
+
+function saveMeeting(data) {
+  var meeting = new Meeting();
+  meeting.save(data, {
+    success: function(object) {
+      console.log("Meeting saved with id = " + object.id);
+      // create action items
+      createActionItemsFromMeeting(object);
+    },
+    error: function(object, error) {
+      console.log(error);
+    }
+  })
+}
+
+/** Private function to create action items from a meeting object
+ *
+ */
+
+function createActionItemsFromMeeting(data) {
+  var contact = new Contact();
+  contact = data.get("contact");
+  var email = contact.get("email");
+
+  // create and save the action item
+  var newActionItemData = {
+    contact: contact,
+    type: "REMINDER",
+    text: "Send a follow up email to " + contact.get('first_name'),
+    link: "mailto:" + email,
+    date: new Date()
+  }
+  saveActionItem(newActionItemData);
+}
+
+/** Saves an action item in the format:
+ {
+  contact: [object Object] // a full Parse contact object
+  type: "REMINDER", // {"REMINDER", "TIP"}
+  text: "Joe is back in town",
+  link: "tel:1231231234" // some actionable link that a phone can access
+  date: [date Object] // JavaScript date object
+ }
+ *
+ */
+
+function saveActionItem(data) {
+  var actionItem = new ActionItem();
+  actionItem.save(data).then(function(object) {
+    console.log("ActionItem saved with id = " + object.id);
+  });
+}
 
 
 /**
@@ -95,13 +177,20 @@ function makeMeeting() {
 }
 
 function main() {
-  fetchAllActionItems()
+  // fetchAllActionItems()
+
+  // Grabs Joe and saves a meeting with him
+  // getContactByID("qsbGTjQI3I", function(joeContact) {
+  //   var testMeetingData = {
+  //     contact: joeContact,
+  //     met_at: new Date(),
+  //     type: "BUSINESS"
+  //   }
+  //   saveMeeting(testMeetingData);
+  // });
 }
 
 main()
 
 // Handle exporting globals so that other javascript files that `require` api.js have access to them
 module.exports.fetchAllActionItems = fetchAllActionItems;
-// module.exports.x = x;
-// module.exports.x = x;
-// module.exports.x = x;
