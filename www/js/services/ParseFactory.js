@@ -484,6 +484,23 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+    ParseService.getActionItemByContactId = function(contactId) {
+        return $http.get('https://api.parse.com/1/classes/action_item/', {
+            params: {
+                where: {
+                    "contact": {
+                        "__type": "Pointer",
+                        "className": "contact",
+                        "objectId": contactId
+                    }
+                },
+            },
+            headers: {
+                'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
+                'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
+            }
+        });
+    };
     ParseService.updateActionItem = function(id, data) {
         return $http.put('https://api.parse.com/1/classes/action_item/' + id, data, {
             headers: {
