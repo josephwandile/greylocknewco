@@ -1,4 +1,4 @@
-<ion-view view-title="{{contact.name}}">
+<ion-view view-title="Contact Details">
     <ion-content class="padding">
         <div class="avatar {{ contact.avatarColor }}">
             {{ contact.avatarText }}
@@ -8,7 +8,7 @@
             {{contact.position}} at {{contact.company}}
         </h5>
         <div class="button-bar row">
-            <a ng-if="contact.phone" class="button button-light icon ion-ios-telephone" href="tel:{{ contact.phone }}" target="_blank"></a>
+            <a ng-if="contact.phone" class="button button-light icon ion-ios-telephone" href="tel:{{ contact.phone }}"></a>
             <a ng-if="contact.email" class="button button-light icon ion-email" href="mailto:{{ contact.email }}" target="_blank"></a>
             <a ng-if="contact.profile" class="button button-light icon ion-earth" href="{{ contact.profile }}" target="_blank"></a>
         </div>
