@@ -502,19 +502,10 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             var contacts = data.results;
 
             var now = Date.now();
-            var day = now.getDay();
-            var month = now.getMonth();
-            var year = now.getFullYear();
-            var last_viewed = year + '-' + month + '-' + day + 'T';
 
             for (var i = 0; i < contacts.length; i++) {
 
             };
-
-
-
-
-
 
         }).error(function(data, status) {
             console.log('Unable to set email reminders: ', status);

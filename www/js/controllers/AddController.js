@@ -58,7 +58,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                             // Adding meeting with new user's ID
                             objectId: data.objectId
                         },
-                        'met_at': Date.parse(met_at),
+                        'met_at': ParseService.createDate(met_at),
                         'type': type,
                         'location': location
                     }).success(function(data) {
@@ -86,7 +86,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         className: "contact",
                         objectId: current_contact_id
                     },
-                    'met_at': Date.parse(met_at),
+                    'met_at': ParseService.createDate(met_at),
                     'type': type,
                     'location': location
                 }).success(function(data) {

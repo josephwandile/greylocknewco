@@ -12,14 +12,10 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
     ];
 
     var now = Date.now();
-    var day = now.getDay();
-    var month = now.getMonth();
-    var year = now.getFullYear();
-    var last_viewed = year + '-' + month + '-' + day + 'T';
 
     // Updates 'last viewed' on databse
     ParseService.updateContact($stateParams.contactId, {
-        'last_viewed': last_viewed
+        'last_viewed': ParseService.createDate(now);
     });
 
     var getContactPromise = ParseService.getContact($stateParams.contactId);
