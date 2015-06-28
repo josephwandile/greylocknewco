@@ -10,6 +10,19 @@ MeetingDetailController.controller('MeetingDetailCtrl', ['$scope', '$stateParams
 
         $scope.save = function() {
 
+            // === Standard Payload ===
+            var payload = ParseService.sanitizePayload($scope.input);
+
+            // === AJAX Request
+            var authPromise = ParseService.updateMeeting($stateParams.meetingId, {
+                'data': JSON.stringify(payload)
+            });
+
+            authPromise.success(function(data) {
+
+            }).error(function(data, status, config, headers) {
+                console.log(status);
+            });
         };
 
         var meetingId = $stateParams.meetingId;

@@ -1,6 +1,6 @@
 var ContactDetailController = angular.module('ContactDetailController', []);
 
-ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService', '$stateParams', '$location', function($scope, ParseService, $stateParams, $location) {
+ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService', '$stateParams', function($scope, ParseService, $stateParams) {
     console.log('Controller Activated');
 
     var avatarColors = [
@@ -39,10 +39,7 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
         });
 
         authPromise.success(function(data) {
-
-            // Profile created; now add meeting details
-            $location.path('tab/contacts/');
-
+            console.log($stateParams.contactId, 'updated');
         }).error(function(data, status, config, header) {
             console.log(status);
         });
