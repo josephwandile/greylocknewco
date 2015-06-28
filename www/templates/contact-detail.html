@@ -1,47 +1,41 @@
-    <!--
-      This template loads for the 'tab.friend-detail' state (app.js)
-      'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-      The FriendsCtrl pulls data from the Friends service (service.js)
-      The Friends service returns an array of friend data
-    -->
-    <ion-view view-title="{{contact.name}}">
-        <ion-content class="padding">
-          <div class="avatar {{ contact.avatarColor }}">
-              {{ contact.avatarText }}
-          </div>
-          <h2 class="center"> {{contact.first_name}} {{contact.last_name}}</h2>
-          <h5 class="grey center"> {{contact.position}} at {{contact.company}}</h5>
-          <div class="button-bar row">
-            <div class="button icon ion-ios-telephone button-light"></div>
-            <div class="button button-light icon ion-email"></div>
-          </div>
+<ion-view view-title="{{contact.name}}">
+    <ion-content class="padding">
+        <div class="avatar {{ contact.avatarColor }}">
+            {{ contact.avatarText }}
+        </div>
+        <h2 class="center"> {{contact.first_name}} {{contact.last_name}}</h2>
+        <h5 class="grey center"> {{contact.position}} at {{contact.company}}</h5>
+        <div class="button-bar row">
+            <a ng-if="contact.phone" class="button button-light icon ion-ios-telephone" href="tel:{{ contact.phone }}" target="_blank"></a>
+            <a ng-if="contact.email" class="button button-light icon ion-email" href="mailto:{{ contact.email }}" target="_blank"></a>
+            <a ng-if="contact.profile" class="button button-light icon ion-earth" href="{{ contact.profile }}" target="_blank"></a>
+        </div>
 
-          <div class="list card" ng-repeat="meeting in meetings track by $index">
-              <div class="item item-body row">
-                  <div ng-switch="meeting.type" class="col col-20">
-                      <div ng-switch-when="RECRUITING" class="avatar calm-bg" >
-                          <i class="icon ion-ios-people"></i>
-                      </div>
-                      <div ng-switch-when="BUSINESS" class="avatar assertive-bg" >
-                          <i class="icon ion-briefcase"></i>
-                      </div>
-                      <div ng-switch-when="MENTORSHIP" class="avatar positive-bg" >
-                          <i class="icon ion-person-stalker"></i>
-                      </div>
-                      <div ng-switch-when="PITCH" class="avatar energized-bg" >
-                          <i class="icon ion-ios-baseball"></i>
-                      </div>
-                      <div ng-switch-default class="avatar royal-bg" >
-                          <i class="icon ion-help"></i>
-                      </div>
-                  </div>
-                  <div class="col col-80">
+        <div class="list card" ng-repeat="meeting in meetings track by $index">
+            <div class="item item-body row">
+                <div ng-switch="meeting.type" class="col col-20">
+                    <div ng-switch-when="RECRUITING" class="avatar calm-bg">
+                        <i class="icon ion-ios-people"></i>
+                    </div>
+                    <div ng-switch-when="BUSINESS" class="avatar assertive-bg">
+                        <i class="icon ion-briefcase"></i>
+                    </div>
+                    <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
+                        <i class="icon ion-person-stalker"></i>
+                    </div>
+                    <div ng-switch-when="PITCH" class="avatar energized-bg">
+                        <i class="icon ion-ios-baseball"></i>
+                    </div>
+                    <div ng-switch-default class="avatar royal-bg">
+                        <i class="icon ion-help"></i>
+                    </div>
+                </div>
+                <div class="col col-80">
                     <h3>{{meeting.location}}</h3>
                     <span class="grey" style="float:right">{{ meeting.date_formatted }}</span>
+                </div>
+            </div>
+        </div>
 
-                  </div>
-              </div>
-          </div>
-
-        </ion-content>
-    </ion-view>
+    </ion-content>
+</ion-view>
