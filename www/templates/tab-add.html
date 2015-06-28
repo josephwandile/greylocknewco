@@ -1,6 +1,9 @@
 <ion-view view-title="Account">
-  <ion-content>
-    <ion-list>
-    </ion-list>
-</ion-content>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="question in questions">
+                {{ question.text }}
+            </ion-item>
+        </ion-list>
+    </ion-content>
 </ion-view>
