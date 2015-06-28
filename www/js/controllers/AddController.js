@@ -67,7 +67,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         ParseService.current_meeting_id = data.objectId;
 
                         // Go to profile questions; meeting will be updated later
-                        $location.path('tab/add/profile');
+                        $location.path('tab/add/profile/:' + ParseService.current_contact_id);
 
                     }).error(function(data, status) {
                         console.log(status)

@@ -15,7 +15,7 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
 
     // Updates 'last viewed' on databse
     ParseService.updateContact($stateParams.contactId, {
-        'last_viewed': ParseService.createDate(now);
+        'last_viewed': ParseService.createDate(now)
     });
 
     var getContactPromise = ParseService.getContact($stateParams.contactId);
