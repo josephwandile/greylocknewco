@@ -21,12 +21,12 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
             var location = $scope.input['location'];
 
             // Parsing data correctly
-            // var day = $scope.input['met_at'].getDay();
-            // var month = $scope.input['met_at'].getMonth();
-            // var year = $scope.input['met_at'].getFullYear();
-        	var met_at = '0000-01-01T'//year + '-' + month + 'day' + 'T';
+            var day = $scope.input['met_at'].getDay();
+            var month = $scope.input['met_at'].getMonth();
+            var year = $scope.input['met_at'].getFullYear();
+        	var met_at = year + '-' + month + 'day' + 'T';
 
-            var type = 'RECRUITING'//$scope.input['type'].toUpperCase();
+            var type = $scope.input['type'].toUpperCase();
 
             // Searching to see if contact already exists
             for (var i = 0; i < contacts.length; i++) {
