@@ -7,4 +7,5 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope', 'ParseService', fun
 
   console.log('Currently updaing meeting with ID ', ParseService.current_meeting_id);
 
+  $scope.questions = ParseService.getQuestions(50, 59);
 }]);

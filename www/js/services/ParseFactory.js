@@ -68,7 +68,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             type: 'text'
         }]
     }, {
-        id: 60,
+        id: 11,
         text: 'What do they do?',
         items: [{
             field: 'position',
@@ -250,6 +250,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         '2': 'met_at',
         '3': 'type',
         '4': 'work_info',
+        '11': 'position',
         '5': 'achievements',
         '6': 'contact_info',
         // Links Sector
@@ -275,7 +276,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         // Provide reminders
         '58': 'instructions',
         '59': 'meeting_notes',
-        '60': 'position'
+
     };
 
     var ParseService = {};
