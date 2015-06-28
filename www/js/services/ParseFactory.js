@@ -366,7 +366,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.updateMeeting = function(id, data) {
-        return $http.put('https://api.parse.com/1/classes/meeting' + id, data, {
+        return $http.put('https://api.parse.com/1/classes/meeting/' + id, data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
