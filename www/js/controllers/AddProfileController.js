@@ -19,8 +19,8 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
 
         authPromise.success(function(data) {
 
-        	// Profile created; now add meeting details
-        	$location.path('tab/add/meeting');
+            // Profile created; now add meeting details
+            $location.path('tab/add/meeting');
 
         }).error(function(data, status) {
             console.log(status);
