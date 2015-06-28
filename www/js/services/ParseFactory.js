@@ -1,6 +1,6 @@
 var ParseFactory = angular.module('ParseFactory', [])
 
-ParseFactory.factory('ParseService', ['$http', function($http) {
+ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($http, PARSE_CREDENTIALS) {
 
     var questions = [{
         id: 0,
