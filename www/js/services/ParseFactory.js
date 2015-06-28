@@ -292,6 +292,14 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
 
+    // returns all questions whose ids in the question dictionary are
+    // in the given list.
+    ParseService.getQuestionsSpecific = function(allowed) {
+        return questions.filter(function(question) {
+            return allowed.indexOf[question.id] > -1;
+        });
+    };
+
     // === Form Sanitization
     ParseService.sanitizePayload = function(payload) {
         for (var prop in payload) {
@@ -494,6 +502,39 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
             }
         });
     };
+
+    // === REMINDERS TO STAY IN TOUCH
+    ParseService.addEmailReminderActions = function() {
+        _this = this;
+
+        var authPromise = _this.getAllContacts();
+
+        authPromise.success(function(data) {
+            var contacts = data.results;
+
+            var now = Date.now();
+
+            for (var i = 0; i < contacts.length; i++) {
+
+            };
+
+        }).error(function(data, status) {
+            console.log('Unable to set email reminders: ', status);
+        });
+
+
+
+
+
+    };
+
+
+
+
+
+
+
+
     return ParseService;
 
 }]).value('PARSE_CREDENTIALS', {

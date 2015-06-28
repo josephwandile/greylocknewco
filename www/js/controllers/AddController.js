@@ -91,7 +91,6 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
                         // Go to profile questions; meeting will be updated later
                         $location.path('tab/add/profile/'+current_contact_id+'/'+data.objectId);
-
                     }).error(function(data, status) {
                         console.log(status)
                     });
