@@ -24,3 +24,27 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .center {
     text-align: center;
 }
+
+.avatar {
+    $size: 50px;
+    $font-size: 24px;
+    width: $size;
+    height: $size;
+    line-height: $size;
+    text-align: center;
+    border-radius: 50%;
+    color: $light;
+    font-size: $font-size;
+}
+
+.no-margin-top {
+    margin-top: 0 !important;
+}
+
+.no-margin-bottom {
+    margin-bottom: 0 !important;
+}
+
+.big {
+    font-size: 22px !important;
+}

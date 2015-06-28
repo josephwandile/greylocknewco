@@ -3,7 +3,7 @@ var FeedController = angular.module('FeedController', []);
 FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope) {
     console.log('Controller Activated');
 
-    actionItems = [{
+    var actionItems = [{
         contact: {
             firstName: "Joe",
             lastName: "Kahn",
@@ -17,8 +17,8 @@ FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope
         contact: {
             firstName: "Neel",
             lastName: "Mehta",
-            title: "Software Engineer",
-            company: "Google Inc."
+            title: "Designer",
+            company: "Apple Inc."
         },
         text: "Give Neel a call -- it's their birthday!",
         link: "tel:2159906434",
@@ -27,8 +27,8 @@ FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope
         contact: {
             firstName: "Sherman",
             lastName: "Leung",
-            title: "Software Engineer",
-            company: "Google Inc."
+            title: "Project Manager",
+            company: "Facebook Inc."
         },
         text: "Read this article Sherman mentioned.",
         link: "http://google.com",
