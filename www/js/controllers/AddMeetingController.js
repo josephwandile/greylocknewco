@@ -19,8 +19,8 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'Parse
 
         authPromise.success(function(data) {
 
-            // Route to recently created meeting
-            $location.path('tab/meeting/' + current_meeting_id);
+            // Route back to feed
+            $location.path('tab/feed');
 
         }).error(function(data, status) {
             console.log(status);

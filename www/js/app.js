@@ -85,7 +85,7 @@ var newco = angular.module('newco', [
     .state('tab.meeting-detail', {
       url: '/meeting/:meetingId',
       views: {
-        'tab-meetings': {
+        'tab-contacts': {
           templateUrl: 'templates/meeting-detail.html',
           controller: 'MeetingDetailCtrl'
         }

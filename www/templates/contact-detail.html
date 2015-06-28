@@ -17,7 +17,7 @@
             <div class="card" ng-repeat="meeting in meetings track by $index">
                 <ion-item href="#/tab/meeting/{{ meeting.objectId }}">
                     <div class="row item-text-wrap">
-                        <div ng-switch="meeting.type" class="col col-20">
+                        <div ng-switch="meeting.type" class="col col-25">
                             <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
                                 <i class="icon ion-ios-people"></i>
                             </div>
@@ -34,7 +34,7 @@
                                 <i class="icon ion-help"></i>
                             </div>
                         </div>
-                        <div class="col col-80">
+                        <div class="col col-75">
                             <h3>
                                 {{meeting.location}}<br>
                                 <span class="muted">{{ meeting.createdAt | date }}</span>
