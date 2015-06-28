@@ -52,4 +52,9 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 .grey {
     color: #aaa;
+.no-underline {
+    text-decoration: none;
+}
+.wrap {
+    white-space: normal !important;
 }
