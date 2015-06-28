@@ -13,7 +13,7 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
 
     var now = new Date();
 
-    // Updates 'last viewed' on databse
+    // Updates 'last viewed' on database
     ParseService.updateContact($stateParams.contactId, {
         'last_viewed': ParseService.createDate(now)
     });
@@ -31,7 +31,7 @@ ContactDetailController.controller('ContactDetailCtrl', ['$scope', 'ParseService
         contact.avatarColor = avatarColors[avatarIndex];
 
         if (contact.data) {
-            $scope.questions = JSON.parse(contact.data);
+            $scope.input = JSON.parse(contact.data);
         }
 
         var getMeetingsPromise = ParseService.getMeetingsForContactId($stateParams.contactId);

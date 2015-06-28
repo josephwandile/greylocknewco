@@ -296,7 +296,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
     // in the given list.
     ParseService.getQuestionsSpecific = function(allowed) {
         return questions.filter(function(question) {
-            return allowed.indexOf[question.id] > -1;
+            return allowed.indexOf(question.id) > -1;
         });
     };
 
@@ -309,8 +309,8 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
                 }
             } else {
                 console.log(prop, 'not filled out.');
-            };
-        };
+            }
+        }
         return payload;
     };
 
@@ -340,15 +340,15 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         return {
             "__type": "Date",
             "iso": date.toISOString()
-        }
+        };
     };
 
     ParseService.createDate = function(date) {
         return {
             "__type": "Date",
             "iso": date.toISOString()
-        }
-    }
+        };
+    };
 
     // === AJAX
     ParseService.getAllContacts = function() {
@@ -552,18 +552,18 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
                                     'link': 'mailto:' + cur_user.email,
                                     'text': 'You haven\'t reached out to ' + cur_user.first_name + ' ' + cur_user.last_name + ' in ' + time_passed + ' days.' + '\nMaybe shoot them an email?'
                                 }).success(function(date) {
-                                    console.log('Email reminder added')
+                                    console.log('Email reminder added');
                                 }).error(function(data, status) {
                                     console.log(status);
                                 });
 
-                            };
+                            }
                         }).error(function(data, status) {
                             console.log(status);
                         });
-                    };
-                };
-            };
+                    }
+                }
+            }
 
         }).error(function(data, status) {
             console.log('Unable to set email reminders: ', status);

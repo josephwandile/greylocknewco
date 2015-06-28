@@ -72,7 +72,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                             date: ParseService.createDate(newDate),
                             type: "REMINDER",
                             text: "You met with " + payload['first_name'] + " yesterday - consider sending a follow up email!",
-                            link: "",
+                            link: "mailto: " + payload['email'],
                             contact: {
                                 "__type": "Pointer",
                                 "className": "contact",
@@ -92,7 +92,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         // Go to profile questions; meeting will be updated later
                         $location.path('tab/add/profile/'+current_contact_id+'/'+data.objectId);
                     }).error(function(data, status) {
-                        console.log(status)
+                        console.log(status);
                     });
 
                 }).error(function(data, status) {
