@@ -16,11 +16,9 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
 
             var contacts = data.results;
 
-            console.log("Test", contacts)
-
-            var first_name = 'Test'//$scope.input['first_name'];
-            var last_name = 'Test'//$scope.input['last_name'];
-            var location = 'Test'//$scope.input['location'];
+            var first_name = $scope.input['first_name'];
+            var last_name = $scope.input['last_name'];
+            var location = $scope.input['location'];
 
             // Parsing data correctly
             // var day = $scope.input['met_at'].getDay();
@@ -87,18 +85,18 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         'type': type,
                         'location': location
                     }).success(function(data) {
-                      var contact = data.get("contact");
-                      var email = contact.get("email");
+                      // var contact = data.get("contact");
+                      // var email = contact.get("email");
 
-                      // create and save the action item
-                      var newActionItemData = {
-                        contact: contact,
-                        type: "REMINDER",
-                        text: "Send a follow up email to " + contact.get('first_name'),
-                        link: "mailto:" + email,
-                        date: new Date()
-                      }
-                      ParseService.createActionItem(newActionItemData);
+                      // // create and save the action item
+                      // var newActionItemData = {
+                      //   contact: contact,
+                      //   type: "REMINDER",
+                      //   text: "Send a follow up email to " + contact.get('first_name'),
+                      //   link: "mailto:" + email,
+                      //   date: new Date()
+                      // }
+                      // ParseService.createActionItem(newActionItemData);
 
                         // Added meeting
                         ParseService.current_meeting_id = data.objectId;
@@ -110,7 +108,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         console.log(status)
                     });
                 }
-            }
+            };
 
         }).error(function(data, status) {
             console.log('Something went wrong.');

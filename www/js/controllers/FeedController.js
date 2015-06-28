@@ -3,9 +3,15 @@ var FeedController = angular.module('FeedController', []);
 FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope, ParseService) {
     console.log('Feed Controller Activated');
 
+    $scope.dismiss = function(item) {
+        console.log(item);
+        $scope.actionItems.splice($scope.actionItems.indexOf(item), 1);
+
+        // TODO(neel): mark the given action item as read in Parse
+    };
+
     $scope.actionItems = [];
     var authPromise = ParseService.getAllActionItems();
-
     authPromise.success(function(data) {
         var actionItems = data.results;
 

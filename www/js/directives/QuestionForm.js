@@ -4,7 +4,7 @@ QuestionForm.directive('questionForm', [function() {
     return {
         templateUrl: '../templates/question-form.html',
         link: function(scope, element, attrs) {
-            console.log(scope);
+            // console.log(scope);
             // modify the given questions
             scope.questions = scope.questions.map(function(question) {
                 // check question's items

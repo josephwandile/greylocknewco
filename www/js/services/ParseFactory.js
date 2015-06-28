@@ -313,7 +313,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.getContact = function(id) {
-        return $http.get('https://api.parse.com/1/classes/contact/'+id, {
+        return $http.get('https://api.parse.com/1/classes/contact/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY
@@ -330,7 +330,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteContact = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/contact' + id, {
+        return $http.delete('https://api.parse.com/1/classes/contact/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -391,7 +391,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteMeeting = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/meeting' + id, {
+        return $http.delete('https://api.parse.com/1/classes/meeting/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
@@ -435,7 +435,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.deleteActionItem = function(id) {
-        return $http.delete('https://api.parse.com/1/classes/action_item' + id, {
+        return $http.delete('https://api.parse.com/1/classes/action_item/' + id, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,

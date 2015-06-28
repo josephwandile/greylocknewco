@@ -24,8 +24,11 @@ ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', '$locat
             var avatarIndex = Math.floor(Math.random() * avatarColors.length);
             contact.avatarColor = avatarColors[avatarIndex];
 
-            // generate their avatar text: their first initialis
-            contact.avatarText = contact.first_name.charAt(0) + contact.last_name.charAt(0);
+            // generate their avatar text: their first initials
+            var firstInitial = contact.first_name ? contact.first_name.charAt(0) : "";
+            var lastInitial = contact.last_name ? contact.last_name.charAt(0) : "";
+            var initials = firstInitial + lastInitial;
+            contact.avatarText = initials.toUpperCase();
 
             return contact;
         });
@@ -34,7 +37,7 @@ ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', '$locat
         console.log(data.error);
     });
 
-    $scope.specificContact= function(contactId) {
+    $scope.specificContact = function(contactId) {
         ParseService.current_contact_id = contactId;
     };
 
