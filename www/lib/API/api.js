@@ -169,11 +169,11 @@ function createActionItemsFromMeeting(data) {
     link: "mailto:" + email,
     date: new Date()
   }
-  saveActionItem(newActionItemData);
+  saveActionItem(newActionItemData, function(result, error){});
 }
 
 function main() {
-  getAllActionItems(console.log)
+  // getAllActionItems(console.log)
 
   // Grabs Joe and saves a meeting with him
   // getContactByID("qsbGTjQI3I", function(joeContact) {
@@ -182,11 +182,11 @@ function main() {
   //     met_at: new Date(),
   //     type: "BUSINESS"
   //   }
-  //   saveMeeting(testMeetingData);
+  //   saveMeeting(testMeetingData, console.log);
   // });
 }
 
-main()
+main();
 
 // Handle exporting globals so that other javascript files that `require` api.js have access to them
 module.exports = {
@@ -196,4 +196,7 @@ module.exports = {
   getActionItemByID: getActionItemByID,
   getContactByID: getContactByID,
   getMeetingByID: getMeetingByID,
-}
+  saveActionItem: saveActionItem,
+  saveContact: saveContact,
+  saveMeeting: saveMeeting,
+};
