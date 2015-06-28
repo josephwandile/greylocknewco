@@ -1,0 +1,17 @@
+<ion-view view-title="Contacts">
+    <ion-content>
+        <div class="list card" ng-repeat="contact in contacts">
+            <div class="item item-body row">
+                <div class="col col-20">
+                    <div class="avatar {{ contact.avatarColor }}">
+                        {{ contact.avatarText }}
+                    </div>
+                </div>
+                <div class="col col-80">
+                    <h2 class="no-margin-top no-margin-bottom big">{{ contact.firstName }} {{ contact.lastName }}</h2>
+                    <h3 class="no-margin-top no-margin-bottom">{{ contact.title }} at {{ contact.company }}</h3>
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>
