@@ -281,20 +281,34 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
     var ParseService = {};
 
+    // === Form Rendering
     ParseService.questions = questions;
 
     // returns all questions whose ids in the question dictionary are
     // in the range [min, max].
     ParseService.getQuestions = function(min, max) {
-        return questions.filter(function(question){
+        return questions.filter(function(question) {
             return question.id >= min && question.id <= max;
         });
     };
 
+    // === Form Sanitization
+    ParseService.sanitizePayload = function(payload) {
+        for (var prop in payload) {
+            if (!payload[prop]) {
+                payload[prop] = payload[prop].trim();
+            } else {
+                console.log(prop, 'not filled out.');
+            };
+        };
+    };
+
+    // === Current Session Data
     ParseService.current_contact_id = '';
 
     ParseService.current_meeting_id = '';
 
+    // === AJAX
     ParseService.getAllContacts = function() {
         return $http.get('https://api.parse.com/1/classes/contact', {
             headers: {
@@ -304,11 +318,11 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.createContact = function(data) {
-        return $http.post('https://api.parse.com/1/classes/contact',data, {
+        return $http.post('https://api.parse.com/1/classes/contact', data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -365,11 +379,11 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.createMeeting = function(data) {
-        return $http.post('https://api.parse.com/1/classes/meeting',data, {
+        return $http.post('https://api.parse.com/1/classes/meeting', data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };
@@ -409,11 +423,11 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
         });
     };
     ParseService.createActionItem = function(data) {
-        return $http.post('https://api.parse.com/1/classes/action_item',data, {
+        return $http.post('https://api.parse.com/1/classes/action_item', data, {
             headers: {
                 'X-Parse-Application-Id': PARSE_CREDENTIALS.APP_ID,
                 'X-Parse-REST-API-Key': PARSE_CREDENTIALS.REST_API_KEY,
-                'Content-Type':'application/json'
+                'Content-Type': 'application/json'
             }
         });
     };

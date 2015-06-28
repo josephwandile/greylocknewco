@@ -11,16 +11,32 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
 
     $scope.submitForm = function() {
 
-        var payload = $scope.input;
+        // === Standard Payload ===
+        var payload = ParseService.sanitizePayload($scope.input);
 
+        // === Action Items ===
+        // Articles
+        var work_field = payload['work_field'];
+        var hobbies = payload['hobbies'];
+
+        // Location reminders
+        var travel_plans = payload['travel_plans'];
+
+        // === Ajax Request ===
         var authPromise = ParseService.updateContact(current_contact_id, {
-            'data': JSON.stringify(payload)
+            'data': JSON.stringify(payload),
+
+            // Remaining Columns
+            'email': payload['email'],
+            'phone': payload['phone'],
+            'position': payload['position'],
+            'company': payload['company']
         });
 
         authPromise.success(function(data) {
 
-        	// Profile created; now add meeting details
-        	$location.path('tab/add/meeting');
+            // Profile created; now add meeting details
+            $location.path('tab/add/meeting');
 
         }).error(function(data, status) {
             console.log(status);
