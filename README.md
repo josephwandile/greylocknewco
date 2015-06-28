@@ -2,9 +2,9 @@
 
 > Building a stronger professional network
 
-# Main Features
-
 ![Cover Photo](art.png)
+
+# Main Features
 
 - Integration with wit.ai plus our own API for scraping news from Google makes it easy to provide actionable insights. News articles that are relevant to a contact's interests, or field; suggestions for meetups based on when your contacts have suggested they'll next be in town, and so on. 
 - Several layers of internal logic that provide suggestions when you haven't spoken to a contact for a long time, always referencing common interests or relevant talking points based on your past meetings and history together.
