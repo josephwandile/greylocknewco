@@ -5,7 +5,11 @@ AddMeetingController.controller('AddMeetingCtrl', ['$scope', '$location', 'Parse
 
     console.log('Currently updating meeting with ID ', $stateParams.meetingId);
 
-    $scope.questions = ParseService.getQuestions(50, 59);
+    // Which segment of questions to display
+    $scope.min = 12;
+    $scope.max = 21;
+
+    // User's responses
     $scope.input = {};
 
     $scope.submitForm = function() {

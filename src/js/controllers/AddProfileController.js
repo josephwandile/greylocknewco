@@ -7,7 +7,11 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
     var current_contact_id = $stateParams.contactId;
     var current_meeting_id = $stateParams.meetingId;
 
-    $scope.questions = ParseService.getQuestions(4, 11);
+    // Segment of question to display
+    $scope.min = 4;
+    $scope.max = 11;
+
+    // User's response
     $scope.input = {};
 
     $scope.submitForm = function() {

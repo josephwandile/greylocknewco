@@ -1,13 +1,13 @@
 var QuestionForm = angular.module('QuestionForm', []);
 
-QuestionForm.directive('questionForm', [function() {
+QuestionForm.directive('questionForm', ['ParseService', function(ParseService) {
     return {
         templateUrl: '../templates/question-form.html',
         link: function(scope, element, attrs) {
             // modify the given questions
 
-            setTimeout(function() {
-                scope.questions = scope.questions.map(function(question) {
+            ParseService.getQuestions(scope.min, scope.max).then(function(questions) {
+                scope.questions = questions.map(function(question) {
                     // check question's items
                     // alternatives:
                     // * all checkboxes
@@ -44,7 +44,7 @@ QuestionForm.directive('questionForm', [function() {
                         scope.input[item.field] = defaultValue;
                     }
                 };
-            }, 500)
+            })
         }
     };
 }]);

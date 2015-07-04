@@ -1,8 +1,10 @@
 var AddController = angular.module('AddController', []);
 
 AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', function($scope, $location, ParseService) {
+    console.log('Controller Activated')
 
-    $scope.questions = ParseService.getQuestions(0, 3);
+    $scope.min = 0;
+    $scope.max = 3;
     $scope.input = {};
 
     $scope.submitForm = function() {

@@ -1,37 +1,40 @@
 var ParseFactory = angular.module('ParseFactory', [])
 
-ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($http, PARSE_CREDENTIALS) {
+ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', '$q', function($http, PARSE_CREDENTIALS, $q) {
 
     var ref = new Firebase('https://201gc.firebaseio.com/questions');
 
     var ParseService = {};
 
-    var questions = [];
-
-    // returns all questions whose ids in the question dictionary are
-    // in the range [min, max].
     ParseService.getQuestions = function(min, max) {
+        var deferred = $q.defer();
 
-        // Loading from Firebase
-        ref.orderByKey().on("value", function(response) {
-            for (var prop in response.val()) {
-                questions.push(response.val()[prop]);
-                return questions.filter(function(question) {
-                    return question.id >= min && question.id <= max;
-                });
+        ref.on("value", function(response) {
+
+            var data = response.val();
+
+            var questions = [];
+
+            for (var key in data) {
+                questions.push(data[key]);
             }
+
+            deferred.resolve(questions.slice(min,max+1));
+
         }, function(errorObject) {
-            console.log("The read failed: " + errorObject.code);
+            deferred.reject(errorObject.code);
         });
+
+        return deferred.promise;
     };
 
     // returns all questions whose ids in the question dictionary are
     // in the given list.
-    ParseService.getQuestionsSpecific = function(allowed) {
-        return questions.filter(function(question) {
-            return allowed.indexOf(question.id) > -1;
-        });
-    };
+    // ParseService.getQuestionsSpecific = function(allowed) {
+    //     return questions.filter(function(question) {
+    //         return allowed.indexOf(question.id) > -1;
+    //     });
+    // };
 
     // === Form Sanitization
     ParseService.sanitizePayload = function(payload) {
@@ -255,7 +258,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', function($ht
 
     // === REMINDERS TO STAY IN TOUCH
     ParseService.addEmailReminderActions = function() {
-        _this = this;
+        var _this = this;
 
         var authPromise = _this.getAllContacts();
 
