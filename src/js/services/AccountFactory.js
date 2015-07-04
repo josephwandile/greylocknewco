@@ -11,11 +11,13 @@ AccountFactory.factory('AccountFactory', ['$firebaseAuth', ($firebaseAuth) => {
     // handler for user authentication
     AccountFactory.auth.$onAuth((data) => {
         if (!!data) {
-            // user authenticated, add a new person to the firebase DB
+            // user authenticated, add a new person to the firebase DB'
+            // TODO(neel): if the user already exists, don't overwrite them
             AccountFactory.authData = data;
 
-            let googleInfo = authData.google.cachedUserProfile;
-            let newUser = new Firebase('https://201gc.firebaseio.com/users/' + authData.uid);
+            let googleInfo = AccountFactory.authData.google.cachedUserProfile;
+            let newUser = new Firebase('https://201gc.firebaseio.com/users/' +
+                AccountFactory.authData.uid);
 
             newUser.set({
                 first_name: googleInfo.given_name,
