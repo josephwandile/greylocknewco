@@ -5,5 +5,6 @@ AccountController.controller('AccountCtrl', ['$scope', 'ParseService', 'AccountF
         console.log('Account Controller Activated');
 
         $scope.account = AccountFactory;
+
     }
 ]);

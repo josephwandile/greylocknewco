@@ -10,7 +10,19 @@ AccountFactory.factory('AccountFactory', ['$firebaseAuth', ($firebaseAuth) => {
 
     // handler for user authentication
     AccountFactory.auth.$onAuth((data) => {
-        AccountFactory.authData = data;
+        if (!!data) {
+            // user authenticated, add a new person to the firebase DB
+            AccountFactory.authData = data;
+
+            let googleInfo = authData.google.cachedUserProfile;
+            let newUser = new Firebase('https://201gc.firebaseio.com/users/' + authData.uid);
+
+            newUser.set({
+                first_name: googleInfo.given_name,
+                last_name: googleInfo.family_name,
+                picture: googleInfo.picture
+            });
+        }
     });
 
     // open google auth to log in, or log out
