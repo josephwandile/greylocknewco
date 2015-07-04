@@ -13,8 +13,8 @@ var paths = {
     es6: ['./src/js/**/*.js']
 };
 
-// `gulp` == `gulp watch`
-gulp.task('default', ['watch']);
+// should be the main command!
+gulp.task('default', ['sass', 'babel', 'watch']);
 
 // `gulp serve` is an alias of `gulp watch` for your convenience :)
 gulp.task('serve', ['watch']);
