@@ -28,6 +28,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .avatar {
     $size: 50px;
     $font-size: 24px;
+    margin: auto;
     width: $size;
     height: $size;
     line-height: $size;
@@ -47,4 +48,16 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 .big {
     font-size: 22px !important;
+}
+
+.muted {
+    color: #999;
+}
+.no-underline {
+    text-decoration: none;
+}
+
+.block-center {
+    display: block;
+    margin: auto;
 }

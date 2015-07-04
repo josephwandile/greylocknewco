@@ -1,14 +1,55 @@
-<!--
-  This template loads for the 'tab.friend-detail' state (app.js)
-  'friend' is a $scope variable created in the FriendsCtrl controller (controllers.js)
-  The FriendsCtrl pulls data from the Friends service (service.js)
-  The Friends service returns an array of friend data
--->
-<ion-view view-title="{{chat.name}}">
+<ion-view view-title="Contact Details">
     <ion-content class="padding">
-        <img ng-src="{{chat.face}}" style="width: 64px; height: 64px">
-        <p>
-            {{chat.lastText}}
-        </p>
+        <div class="avatar {{ contact.avatarColor }}">
+            {{ contact.avatarText }}
+        </div>
+        <h2 class="center"> {{contact.first_name}} {{contact.last_name}}</h2>
+        <h5 class="grey center">
+            {{contact.position}} at {{contact.company}}
+        </h5>
+        <div class="button-bar row">
+            <a ng-if="contact.phone" class="button button-light icon ion-ios-telephone" href="tel:{{ contact.phone }}"></a>
+            <a ng-if="contact.email" class="button button-light icon ion-email" href="mailto:{{ contact.email }}" target="_blank"></a>
+            <a ng-if="contact.profile" class="button button-light icon ion-earth" href="{{ contact.profile }}" target="_blank"></a>
+        </div>
+
+        <ion-list>
+            <div class="card" ng-repeat="meeting in meetings track by $index">
+                <ion-item href="#/tab/meeting/{{ meeting.objectId }}">
+                    <div class="row item-text-wrap">
+                        <div ng-switch="meeting.type" class="col col-25">
+                            <div ng-switch-when="MENTORSHIP" class="avatar positive-bg">
+                                <i class="icon ion-ios-people"></i>
+                            </div>
+                            <div ng-switch-when="RECRUITING" class="avatar calm-bg">
+                                <i class="icon ion-briefcase"></i>
+                            </div>
+                            <div ng-switch-when="NETWORKING" class="avatar assertive-bg">
+                                <i class="icon ion-chatbubbles"></i>
+                            </div>
+                            <div ng-switch-when="PITCH" class="avatar balanced-bg">
+                                <i class="icon ion-mic-a"></i>
+                            </div>
+                            <div ng-switch-default class="avatar royal-bg">
+                                <i class="icon ion-help"></i>
+                            </div>
+                        </div>
+                        <div class="col col-75">
+                            <h3>
+                                {{meeting.location}}
+                                <br>
+                                <span class="muted" ng-if="meeting.createdAt">{{ meeting.createdAt | date }}</span>
+                            </h3>
+                        </div>
+                    </div>
+                </ion-item>
+            </div>
+        </ion-list>
+
+        <div question-form></div>
+
+        <button class="button button-block button-positive" ng-click="save()">
+            Save changes
+        </button>
     </ion-content>
 </ion-view>

@@ -7,8 +7,9 @@
 // 'starter.controllers' is found in controllers.js
 var newco = angular.module('newco', [
     // Other Dependencies
+    "firebase",
     'ionic',
-
+    'monospaced.elastic',
     // Controllers
     'ContactsController',
     'FeedController',
@@ -19,9 +20,11 @@ var newco = angular.module('newco', [
     'AddMeetingController',
 
     // Services
-    'ParseFactory'
-])
+    'ParseFactory',
 
+    // Directives
+    'QuestionForm'
+])
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -35,7 +38,6 @@ var newco = angular.module('newco', [
     }
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider) {
 
   // Ionic uses AngularUI Router which uses the concept of states
@@ -82,15 +84,14 @@ var newco = angular.module('newco', [
       }
     })
     .state('tab.meeting-detail', {
-      url: '/meetings/:meetingId',
+      url: '/meeting/:meetingId',
       views: {
-        'tab-meetings': {
+        'tab-contacts': {
           templateUrl: 'templates/meeting-detail.html',
           controller: 'MeetingDetailCtrl'
         }
       }
     })
-
   .state('tab.add', {
     url: '/add',
     views: {
@@ -101,18 +102,18 @@ var newco = angular.module('newco', [
     }
   })
   .state('tab.add-profile', {
-    url: '/add/profile',
+    url: '/add/profile/:contactId/:meetingId',
     views: {
-      'tab-add-profile': {
+      'tab-add': {
         templateUrl: 'templates/add-profile.html',
         controller: 'AddProfileCtrl'
       }
     }
   })
   .state('tab.add-meeting', {
-    url: '/add/meeting',
+    url: '/add/meeting/:meetingId',
     views: {
-      'tab-add-meeting': {
+      'tab-add': {
         templateUrl: 'templates/add-meeting.html',
         controller: 'AddMeetingCtrl'
       }

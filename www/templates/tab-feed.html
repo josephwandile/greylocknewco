@@ -1,21 +1,28 @@
 <ion-view view-title="Feed">
-    <ion-content class="padding">
-        <div class="list card" ng-repeat="item in actionItems">
-            <div class="item item-divider">
-                {{ item.contact.firstName }} {{ item.contact.lastName }} ({{ item.contact.company }})
-            </div>
-            <div class="item item-body row">
-                <div class="col col-60">
-                    {{ item.text }}</div>
-                <div class="col col-40 center">
-                    <a ng-if="item.link" href="{{ item.link }}" class="button button-positive button-clear" target="_blank">
-                        <i class="icon {{ item.actionIcon }}"></i>
+    <ion-content>
+        <ion-list can-swipe="true">
+            <div class="card item-text-wrap" ng-repeat="item in actionItems">
+                <div class="item item-divider">
+                    <a class="no-underline dark" ng-href="#tab/contacts/{{ item.contact.objectId }}">
+                        {{ item.contact.first_name }} {{ item.contact.last_name }} ({{ item.contact.company }})
                     </a>
-                    <button class="button button-balanced button-clear">
-                        <i class="icon ion-checkmark"></i>
-                    </button>
+                    <span class="muted">{{ item.date.iso | date:'M/d' }}</span>
                 </div>
+                <ion-item>
+                    <ion-option-button class="button-balanced" ng-click="dismiss(item)">
+                        <i class="icon ion-checkmark block-center"></i>
+                    </ion-option-button>
+                    <div class="item-button-right">
+                        {{ item.text }}
+                        <a ng-if="item.link" href="{{ item.link }}" class="button button-positive button-clear" target="_blank">
+                            <i class="icon {{ item.actionIcon }}"></i>
+                        </a>
+                        <!--
+                        <ion-delete-button class="ion-checkmark button-balanced" ng-click="onItemDelete(item)">
+                        </ion-delete-button> -->
+                    </div>
+                </ion-item>
             </div>
-        </div>
+        </ion-list>
     </ion-content>
 </ion-view>
