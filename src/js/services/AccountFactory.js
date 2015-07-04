@@ -2,13 +2,30 @@ var AccountFactory = angular.module('AccountFactory', [])
 
 AccountFactory.factory('AccountFactory', ['$firebaseAuth', ($firebaseAuth) => {
 
-    let ref = new Firebase('https://201gc.firebaseio.com/questions');
-    let auth = $firebaseAuth(ref);
+    let usersRef = new Firebase('https://201gc.firebaseio.com/users');
+    let auth = $firebaseAuth(usersRef);
     let authData = undefined;
 
     // handler for user authentication
     auth.$onAuth((data) => {
-        authData = data;
+
+        if (!!data) {
+
+            authData = data;
+
+            let googleInfo = authData.google.cachedUserProfile;
+
+            let newUser = new Firebase('https://201gc.firebaseio.com/users/' + authData.uid);
+
+            newUser.set({
+
+                first_name: googleInfo.given_name,
+                last_name: googleInfo.family_name,
+                picture: googleInfo.picture
+
+            });
+        }
+
     });
 
     let AccountFactory = {};
