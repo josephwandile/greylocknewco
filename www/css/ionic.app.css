@@ -7695,6 +7695,7 @@ a.button {
   margin-bottom: 0 !important; }
 
 .big {
+<<<<<<< HEAD
   font-size: 22px !important; }
 
 .muted {
@@ -7706,3 +7707,6 @@ a.button {
 .block-center {
   display: block;
   margin: auto; }
+=======
+  font-size: 24px !important; }
+>>>>>>> bfe2dca6fbc06bf9c6bc4d9b4ff8b62243935e7a
