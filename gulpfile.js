@@ -3,6 +3,7 @@ var gutil = require('gulp-util');
 var babel = require("gulp-babel");
 var bower = require('bower');
 var concat = require('gulp-concat');
+var inject = require('gulp-inject');
 var sass = require('gulp-sass');
 var minifyCss = require('gulp-minify-css');
 var rename = require('gulp-rename');
@@ -10,7 +11,8 @@ var sh = require('shelljs');
 
 var paths = {
     sass: ['./src/scss/**/*.scss'],
-    es6: ['./src/js/**/*.js']
+    es6: ['./src/js/**/*.js'],
+    angular: ['./www/js/controllers/**/*.js', './www/js/directives/**/*.js', './www/js/services/**/*.js']
 };
 
 // should be the main command!
@@ -44,6 +46,13 @@ gulp.task('babel', function(done) {
         .on('end', done);
 });
 
+// auto inject Angular files into index.hmtl
+gulp.task('inject', function(){
+    gulp.src('./www/index.html')
+        .pipe(inject(gulp.src(paths.angular), {relative: true}))
+        .pipe(gulp.dest('./www'));
+});
+
 // install bower components
 gulp.task('install', ['git-check'], function() {
     return bower.commands.install()
@@ -55,5 +64,5 @@ gulp.task('install', ['git-check'], function() {
 // compile sass and es6 on the fly
 gulp.task('watch', function() {
     gulp.watch(paths.sass, ['sass']);
-    gulp.watch(paths.es6, ['babel']);
+    gulp.watch(paths.es6, ['babel', 'inject']);
 });
