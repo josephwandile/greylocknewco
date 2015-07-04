@@ -11,6 +11,7 @@ var newco = angular.module('newco', [
         'ionic',
         'monospaced.elastic',
         // Controllers
+        'AccountController',
         'ContactsController',
         'FeedController',
         'ContactDetailController',
@@ -54,6 +55,17 @@ var newco = angular.module('newco', [
         })
 
         // Each tab has its own nav history stack:
+
+
+        .state('tab.account', {
+            url: '/account',
+            views: {
+                'tab-account': {
+                    templateUrl: 'templates/tab-account.html',
+                    controller: 'AccountCtrl'
+                }
+            }
+        })
 
         .state('tab.feed', {
             url: '/feed',
