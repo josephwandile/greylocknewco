@@ -1,7 +1,9 @@
 var AccountController = angular.module('AccountController', []);
 
-AccountController.controller('AccountCtrl', ['$scope', 'ParseService', function($scope, ParseService) {
-    console.log('Account Controller Activated');
+AccountController.controller('AccountCtrl', ['$scope', 'ParseService', 'AccountFactory',
+    function($scope, ParseService, AccountFactory) {
+        console.log('Account Controller Activated');
 
-    $scope.name = "Neel";
-}]);
+        $scope.account = AccountFactory;
+    }
+]);
