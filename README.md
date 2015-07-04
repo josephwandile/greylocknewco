@@ -38,3 +38,9 @@ ionic serve --lab
 ```
 
 #### Add new dependencies using gulp in the standard way.
+
+
+# Todos
+
+* Follow [Airbnb style guide](https://github.com/airbnb/javascript)
+* Use [gulp jshint](https://www.npmjs.com/package/gulp-jshint) (`gulp-jshint`, `jshint-stylish`)
