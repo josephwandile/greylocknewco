@@ -258,7 +258,7 @@ ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', '$q', functi
 
     // === REMINDERS TO STAY IN TOUCH
     ParseService.addEmailReminderActions = function() {
-        var _this = this;
+        let _this = this;
 
         var authPromise = _this.getAllContacts();
 
