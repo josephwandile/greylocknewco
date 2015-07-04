@@ -2,26 +2,26 @@ var AccountFactory = angular.module('AccountFactory', [])
 
 AccountFactory.factory('AccountFactory', ['$firebaseAuth', ($firebaseAuth) => {
 
+    let AccountFactory = {};
+
     let ref = new Firebase('https://201gc.firebaseio.com/questions');
-    let auth = $firebaseAuth(ref);
-    let authData = undefined;
+    AccountFactory.auth = $firebaseAuth(ref);
+    AccountFactory.authData = undefined;
 
     // handler for user authentication
-    auth.$onAuth((data) => {
-        authData = data;
+    AccountFactory.auth.$onAuth((data) => {
+        AccountFactory.authData = data;
     });
-
-    let AccountFactory = {};
 
     // open google auth to log in, or log out
     AccountFactory.logIn = () =>
-        auth.$authWithOAuthPopup('google');
+        AccountFactory.auth.$authWithOAuthPopup('google');
     AccountFactory.logOut = () =>
-        auth.$unauth();
+        AccountFactory.auth.$unauth();
     // check if user is logged in
-    AccountFactory.isLoggedIn = () => !!authData;
+    AccountFactory.isLoggedIn = () => !!AccountFactory.authData;
     // get user info
-    AccountFactory.getAuthData = () => authData;
+    AccountFactory.getAuthData = () => AccountFactory.authData;
 
     return AccountFactory;
 

@@ -27,7 +27,16 @@ var newco = angular.module('newco', [
         // Directives
         'QuestionForm'
     ])
-    .run(function($ionicPlatform) {
+    .run(["$ionicPlatform", "$rootScope", "$state", function($ionicPlatform, $rootScope, $state) {
+        $rootScope.$on("$stateChangeError", function(event, toState, toParams, fromState, fromParams, error) {
+            // We can catch the error thrown when the $requireAuth promise is rejected
+            // and redirect the user back to the home page
+            console.log(error);
+            if (error === "AUTH_REQUIRED") {
+                $state.go("tab.account");
+            }
+        });
+
         $ionicPlatform.ready(function() {
             // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
             // for form inputs)
@@ -39,7 +48,7 @@ var newco = angular.module('newco', [
                 StatusBar.styleLightContent();
             }
         });
-    })
+    }])
     .config(function($stateProvider, $urlRouterProvider) {
 
         // Ionic uses AngularUI Router which uses the concept of states
@@ -83,7 +92,15 @@ var newco = angular.module('newco', [
                 views: {
                     'tab-contacts': {
                         templateUrl: 'templates/tab-contacts.html',
-                        controller: 'ContactsCtrl'
+                        controller: 'ContactsCtrl',
+                        resolve: {
+                            // controller will not be loaded until $waitForAuth resolves
+                            // Auth refers to our $firebaseAuth wrapper in the example above
+                            "currentAuth": ["AccountFactory", function(AccountFactory) {
+                                // $waitForAuth returns a promise so the resolve waits for it to complete
+                                return AccountFactory.auth.$requireAuth();
+                            }]
+                        }
                     }
                 }
             })
@@ -92,7 +109,15 @@ var newco = angular.module('newco', [
                 views: {
                     'tab-contacts': {
                         templateUrl: 'templates/contact-detail.html',
-                        controller: 'ContactDetailCtrl'
+                        controller: 'ContactDetailCtrl',
+                        resolve: {
+                            // controller will not be loaded until $waitForAuth resolves
+                            // Auth refers to our $firebaseAuth wrapper in the example above
+                            "currentAuth": ["AccountFactory", function(AccountFactory) {
+                                // $waitForAuth returns a promise so the resolve waits for it to complete
+                                return AccountFactory.auth.$requireAuth();
+                            }]
+                        }
                     }
                 }
             })
