@@ -7,6 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 var newco = angular.module('newco', [
     // Other Dependencies
+    "firebase",
     'ionic',
     'monospaced.elastic',
     // Controllers
