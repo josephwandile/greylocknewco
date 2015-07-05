@@ -1,7 +1,7 @@
 <ion-view view-title="You">
     <ion-content class="padding">
         <div ng-if="account.isLoggedIn()">
-            <h2 class="center"> {{ account.getAuthData().google.displayName }}</h2>
+            <h2 class="center"> {{ account.user.first_name }} {{ account.user.last_name }}</h2>
             <button class="button button-block button-assertive" ng-click="account.logOut()">
                 <i class="icon ion-log-out"></i>
                 Log out
