@@ -30,8 +30,10 @@ AccountFactory.factory('AccountFactory', ['$firebaseAuth', ($firebaseAuth) => {
     // open google auth to log in, or log out
     AccountFactory.logIn = () =>
         AccountFactory.auth.$authWithOAuthPopup('google');
-    AccountFactory.logOut = () =>
+    AccountFactory.logOut = () => {
         AccountFactory.auth.$unauth();
+        AccountFactory.authData = null;
+    }
     // check if user is logged in
     AccountFactory.isLoggedIn = () => !!AccountFactory.authData;
     // get user info

@@ -19,6 +19,7 @@ var newco = angular.module('newco', [
         'AddController',
         'AddProfileController',
         'AddMeetingController',
+        'TabsController',
 
         // Services
         'ParseFactory',
@@ -51,6 +52,18 @@ var newco = angular.module('newco', [
     }])
     .config(function($stateProvider, $urlRouterProvider) {
 
+        // pass "resolve: loginResolver" in your views to make the views
+        // only accessible to logged-in users
+        let loginResolver = {
+            // controller will not be loaded until $waitForAuth resolves
+            // Auth refers to our $firebaseAuth wrapper in the example above
+            "currentAuth": ["AccountFactory", function(AccountFactory) {
+                // $waitForAuth returns a promise so the resolve waits for it to complete
+                return AccountFactory.auth.$requireAuth();
+            }]
+        }
+
+
         // Ionic uses AngularUI Router which uses the concept of states
         // Learn more here: https://github.com/angular-ui/ui-router
         // Set up the various states which the app can be in.
@@ -61,7 +74,8 @@ var newco = angular.module('newco', [
             .state('tab', {
             url: "/tab",
             abstract: true,
-            templateUrl: "templates/tabs.html"
+            templateUrl: "templates/tabs.html",
+            controller: 'TabsCtrl'
         })
 
         // Each tab has its own nav history stack:
@@ -82,7 +96,8 @@ var newco = angular.module('newco', [
             views: {
                 'tab-feed': {
                     templateUrl: 'templates/tab-feed.html',
-                    controller: 'FeedCtrl'
+                    controller: 'FeedCtrl',
+                    resolve: loginResolver
                 }
             }
         })
@@ -93,14 +108,7 @@ var newco = angular.module('newco', [
                     'tab-contacts': {
                         templateUrl: 'templates/tab-contacts.html',
                         controller: 'ContactsCtrl',
-                        resolve: {
-                            // controller will not be loaded until $waitForAuth resolves
-                            // Auth refers to our $firebaseAuth wrapper in the example above
-                            "currentAuth": ["AccountFactory", function(AccountFactory) {
-                                // $waitForAuth returns a promise so the resolve waits for it to complete
-                                return AccountFactory.auth.$requireAuth();
-                            }]
-                        }
+                        resolve: loginResolver,
                     }
                 }
             })
@@ -110,14 +118,7 @@ var newco = angular.module('newco', [
                     'tab-contacts': {
                         templateUrl: 'templates/contact-detail.html',
                         controller: 'ContactDetailCtrl',
-                        resolve: {
-                            // controller will not be loaded until $waitForAuth resolves
-                            // Auth refers to our $firebaseAuth wrapper in the example above
-                            "currentAuth": ["AccountFactory", function(AccountFactory) {
-                                // $waitForAuth returns a promise so the resolve waits for it to complete
-                                return AccountFactory.auth.$requireAuth();
-                            }]
-                        }
+                        resolve: loginResolver
                     }
                 }
             })
@@ -126,7 +127,8 @@ var newco = angular.module('newco', [
                 views: {
                     'tab-contacts': {
                         templateUrl: 'templates/meeting-detail.html',
-                        controller: 'MeetingDetailCtrl'
+                        controller: 'MeetingDetailCtrl',
+                        resolve: loginResolver
                     }
                 }
             })
@@ -135,7 +137,8 @@ var newco = angular.module('newco', [
                 views: {
                     'tab-add': {
                         templateUrl: 'templates/tab-add.html',
-                        controller: 'AddCtrl'
+                        controller: 'AddCtrl',
+                        resolve: loginResolver
                     }
                 }
             })
@@ -144,7 +147,8 @@ var newco = angular.module('newco', [
                 views: {
                     'tab-add': {
                         templateUrl: 'templates/add-profile.html',
-                        controller: 'AddProfileCtrl'
+                        controller: 'AddProfileCtrl',
+                        resolve: loginResolver
                     }
                 }
             })
@@ -153,7 +157,8 @@ var newco = angular.module('newco', [
                 views: {
                     'tab-add': {
                         templateUrl: 'templates/add-meeting.html',
-                        controller: 'AddMeetingCtrl'
+                        controller: 'AddMeetingCtrl',
+                        resolve: loginResolver
                     }
                 }
             });
