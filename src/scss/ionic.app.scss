@@ -19,21 +19,31 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
 
-.center {
-    text-align: center;
-}
-
-.avatar {
+// Avatars
+@mixin avatar-circular() {
     $size: 50px;
-    $font-size: 24px;
-    margin: auto;
     width: $size;
     height: $size;
     line-height: $size;
-    text-align: center;
     border-radius: 50%;
+    vertical-align: middle;
+    text-align: center;
+    margin: auto;
+}
+
+.avatar {
+    @include avatar-circular();
+    $font-size: 24px;
     color: $light;
     font-size: $font-size;
+}
+.avatar-img {
+    @include avatar-circular();
+}
+
+
+.center {
+    text-align: center;
 }
 
 .no-margin-top {
@@ -51,6 +61,7 @@ $ionicons-font-path: "../lib/ionic/fonts" !default;
 .muted {
     color: #999;
 }
+
 .no-underline {
     text-decoration: none;
 }

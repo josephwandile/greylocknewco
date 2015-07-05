@@ -1,13 +1,17 @@
 <ion-view view-title="You">
     <ion-content class="padding">
         <div ng-if="account.isLoggedIn()">
-            <h2 class="center"> {{ account.user.first_name }} {{ account.user.last_name }}</h2>
+            <h2 class="center">
+                <img ng-src="{{ account.user.picture }}" class="avatar-img">
+                {{ account.user.first_name }} {{ account.user.last_name }}
+            </h2>
             <button class="button button-block button-assertive" ng-click="account.logOut()">
                 <i class="icon ion-log-out"></i>
                 Log out
             </button>
         </div>
         <div ng-if="!account.isLoggedIn()">
+            <h2 class="center">Log in to start building your professional relationships!</h2>
             <button class="button button-block button-positive" ng-click="account.logIn()">
                 <i class="icon ion-social-google"></i>
                 Log in with Google
