@@ -37,7 +37,6 @@ FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope
         });
 
         $scope.actionItems = _.sortBy($scope.actionItems, function(item){
-            console.log(item.date.iso);
             return -1 * new Date(item.date.iso);
         });
     }).error(function(data, status) {

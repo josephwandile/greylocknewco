@@ -1,9 +1,10 @@
 var AddController = angular.module('AddController', []);
 
-AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$location', 'ParseService', function($scope, $location, ParseService /*, $route*/ /*, $window*/ ) {
-    console.log('Controller Activated');
+AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', function($scope, $location, ParseService) {
+    console.log('Controller Activated')
 
-    $scope.questions = ParseService.getQuestions(0, 3);
+    $scope.min = 0;
+    $scope.max = 3;
     $scope.input = {};
 
     $scope.submitForm = function() {
@@ -40,7 +41,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                 };
             };
 
-          	// New contact
+            // New contact
             if (matches === false) {
 
                 var authPromise = ParseService.createContact({
@@ -69,7 +70,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                         ParseService.current_meeting_id = data.objectId;
 
                         // Go to profile questions; meeting will be updated later
-                        $location.path('tab/add/profile/'+current_contact_id+'/'+data.objectId);
+                        $location.path('tab/add/profile/' + current_contact_id + '/' + data.objectId);
                     }).error(function(data, status) {
                         console.log(status);
                     });
@@ -91,13 +92,13 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                     'type': type,
                     'location': location
                 }).success(function(data) {
-                    var actionItemDate = met_at.getTime() + 60*60*24*1000;
+                    var actionItemDate = met_at.getTime() + 60 * 60 * 24 * 1000;
                     var newDate = new Date(actionItemDate);
                     var newActionItemData = {
                         date: ParseService.createDate(newDate),
                         type: "REMINDER",
                         text: "You met " + payload['first_name'] + " yesterday - send a follow up!",
-                        link: "mailto:"+current_email,
+                        link: "mailto:" + current_email,
                         contact: {
                             "__type": "Pointer",
                             "className": "contact",
@@ -114,7 +115,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
                     ParseService.current_meeting_id = data.objectId;
 
                     // Update meeting here
-                    $location.path('tab/add/meeting/'+data.objectId);
+                    $location.path('tab/add/meeting/' + data.objectId);
 
                 }).error(function(data, status, config, headers) {
                     console.log(status)
@@ -122,7 +123,7 @@ AddController.controller('AddCtrl', ['$scope', /*'$route', */ /*'$window', */ '$
             }
 
         }).error(function() {
-        	// Couldn't retrieve contacts
+            // Couldn't retrieve contacts
             console.log(status);
         });
     }
