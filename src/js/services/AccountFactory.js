@@ -1,58 +1,66 @@
+'use strict';
+
 var AccountFactory = angular.module('AccountFactory', [])
+.factory('AccountFactory', AccountFactory);
 
-AccountFactory.factory('AccountFactory', ['$firebaseAuth', '$firebaseObject', ($firebaseAuth, $firebaseObject) => {
+AccountFactory.$inject = ['$firebaseAuth', '$firebaseObject'];
 
-    let AccountFactory = {};
+AccountFactory = ($firebaseAuth, $firebaseObject) => {
 
-    let ref = new Firebase('https://201gc.firebaseio.com/questions');
-    AccountFactory.auth = $firebaseAuth(ref);
-    AccountFactory.authData = undefined;
+  let AccountFactory = {};
 
-    // handler for user authentication
-    AccountFactory.auth.$onAuth((data) => {
-        if (!!data) {
-            // user authenticated, add a new person to the firebase DB'
-            // TODO(neel): if the user already exists, don't overwrite them
-            AccountFactory.authData = data;
+  let ref = new Firebase('https://201gc.firebaseio.com/questions');
 
-            let googleInfo = AccountFactory.authData.google.cachedUserProfile;
+  AccountFactory.auth = $firebaseAuth(ref);
+  AccountFactory.authData = undefined;
 
-            let userRef = new Firebase('https://201gc.firebaseio.com/users/' +
-                AccountFactory.authData.uid);
-            // create a synchronized version
-            AccountFactory.user = $firebaseObject(userRef);
+  // Handler for user authentication
+  AccountFactory.auth.$onAuth((data) => {
+    if (!!data) {
 
-            AccountFactory.user.$loaded().then(() => {
-                // initialize user here if they don't already exist
-                let user = AccountFactory.user;
+      AccountFactory.authData = data;
 
-                if (!user.first_name) {
-                    user.first_name = googleInfo.given_name;
-                    user.last_name = googleInfo.family_name;
-                    user.picture = googleInfo.picture;
-                    user.$save();
-                }
-            });
+      let googleInfo = AccountFactory.authData.google.cachedUserProfile;
+
+      // Creates unique ID for user... Ex: 'google:1234'
+      let userRef = new Firebase('https://201gc.firebaseio.com/users/' +
+        AccountFactory.authData.uid);
+
+      // Create a synchronized version
+      AccountFactory.user = $firebaseObject(userRef);
+
+      AccountFactory.user.$loaded().then(() => {
+
+        // Initialize user here if they don't already exist
+        let user = AccountFactory.user;
+
+        // If new user...
+        if (!user.firstName) {
+          user.firstName = googleInfo.given_name;
+          user.lastName = googleInfo.family_name;
+          user.picture = googleInfo.picture;
+          user.$save();
         }
-    });
+      });
+    }
+  });
 
-    // open google auth to log in, or log out
-    AccountFactory.logIn = () =>
-        AccountFactory.auth.$authWithOAuthPopup('google');
-    AccountFactory.logOut = () => {
-            AccountFactory.auth.$unauth();
-            AccountFactory.authData = null;
-        }
-        // check if user is logged in
-    AccountFactory.isLoggedIn = () => !!AccountFactory.authData;
-    // get user info
-    AccountFactory.getAuthData = () => AccountFactory.authData;
+  // Open google auth to log in, or log out
+  AccountFactory.logIn = () => {
+    AccountFactory.auth.$authWithOAuthPopup('google');
+  };
 
-    // public-accessible fields:
-    // - user
-    // - auth
-    // - authData
+  AccountFactory.logOut = () => {
+    AccountFactory.auth.$unauth();
+    AccountFactory.authData = null;
+  };
 
-    return AccountFactory;
+  // Check if user is logged in
+  AccountFactory.isLoggedIn = () => !!AccountFactory.authData;
 
-}]);
+  // Get user info
+  AccountFactory.getAuthData = () => AccountFactory.authData;
+
+  return AccountFactory;
+
+};
