@@ -12,8 +12,8 @@ ContactsController.filter('fancify', function() {
   return function(input) {
     for (var i = 0; i < input.length; i++) {
       var contact = input[i];
-      // add a random color for their avatar (hash on first letter of name)
-      var avatarIndex = contact.first_name.charCodeAt(0) % avatarColors.length;
+      // add a random color for their avatar (hash on their id)
+      var avatarIndex = contact.$id.charCodeAt(0) % avatarColors.length;
       contact.avatarColor = avatarColors[avatarIndex];
 
       // generate their avatar text: their first initials
