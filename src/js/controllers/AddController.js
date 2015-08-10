@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO Abstract out logic for creating meetings, and so on.
+
 let AddController = angular.module('AddController', []);
 
 AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', 'AccountFactory', function($scope, $location, ParseService, AccountFactory) {
@@ -26,13 +28,15 @@ AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', 'Acc
 
     AccountFactory.user.$loaded().then(() => {
 
-      let key = first_name + ' ' + last_name;
+      let key = firstName + ' ' + lastName;
       let curUser = AccountFactory.user;
 
       if (typeof curUser.contacts !== 'object') {
 
         // First time adding contacts
         curUser.contacts = {};
+
+
 
         curUser.contacts[key] = {
           first_name: firstName,
@@ -51,7 +55,28 @@ AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', 'Acc
         // Check for possible duplicate
         if (existingContacts.hasOwnProperty(key)) {
 
-          // Updating existing contact, TODO add meeting
+          // Updating existing contact; add meeting
+          // TODO add new property. Don't redefine.
+          curUser.contacts[key].meetings = {
+            otherTest: {
+              met_at: metAt,
+              type: type,
+              location: location
+            }
+          };
+
+          AccountFactory.user.$save().then((ref) => {
+
+            // TODO route direcly to meeting view
+
+            // // Added meeting
+            // ParseService.current_meeting_id = data.objectId;
+            //
+            // // Update meeting here
+            // $location.path('tab/add/meeting/' + data.objectId);
+          });
+
+
         } else {
 
           // New contact
@@ -62,6 +87,8 @@ AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', 'Acc
 
           AccountFactory.user.$save().then((ref) => {
 
+            // TODO use unique IDs for the creation of meetings
+            // TODO add new property. Don't redefine.
             curUser.contacts[key].meetings = {
               test: {
                 met_at: metAt,
@@ -72,28 +99,12 @@ AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', 'Acc
 
             AccountFactory.user.$save().then((ref) => {
 
-              // TODO reroute to profile view
+              // TODO reroute to profile creation view
             });
           });
         }
       }
     });
-
-    //     } else {
-    //         // Contact already exists
-    //         ParseService.current_contact_id = current_contact_id;
-    //
-    //         let authPromise = ParseService.createMeeting({
-    //             'contact': {
-    //                 __type: 'Pointer',
-    //                 className: "contact",
-    //                 objectId: current_contact_id
-    //             },
-    //             'met_at': ParseService.createDate(met_at),
-    //             'type': type,
-    //             'location': location
-    //         }).success(function(data) {
-
 
     //             let actionItemDate = met_at.getTime() + 60 * 60 * 24 * 1000;
     //             let newDate = new Date(actionItemDate);
@@ -116,20 +127,5 @@ AddController.controller('AddCtrl', ['$scope', '$location', 'ParseService', 'Acc
     //             }).error(function(data, status, config, headers) {
     //                 console.log(headers);
     //             });
-    //             // Added meeting
-    //             ParseService.current_meeting_id = data.objectId;
-    //
-    //             // Update meeting here
-    //             $location.path('tab/add/meeting/' + data.objectId);
-    //
-    //         }).error(function(data, status, config, headers) {
-    //             console.log(status)
-    //         });
-    //     }
-    //
-    // }).error(function() {
-    //     // Couldn't retrieve contacts
-    //     console.log(status);
-    // });
   };
 }]);
