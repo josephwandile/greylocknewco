@@ -42,8 +42,6 @@ ContactDetailController.controller('ContactDetailCtrl', [
                   });
                 };
 
-    // TODO(neel): get this working (firebase doesn't recognize
-    // this id)
     $scope.contacts.$loaded().then((contacts) => {
       $scope.contact = contacts.$getRecord($stateParams.contactId);
       let contact = $scope.contact;
@@ -70,33 +68,5 @@ ContactDetailController.controller('ContactDetailCtrl', [
       });
     });
 
-    // var getContactPromise = ParseService.getContact($stateParams.contactId);
-    // getContactPromise.success(function(contact) {
-    //     $scope.contact = contact;
-    //
-    //     var avatarIndex = Math.floor(Math.random() * avatarColors.length);
-    //     contact.avatarText = contact.first_name.charAt(0) + contact.last_name.charAt(0);
-    //     contact.avatarColor = avatarColors[avatarIndex];
-    //
-    //     if (contact.data) {
-    //         $scope.input = JSON.parse(contact.data);
-    //     }
-    //
-    //     // remove empty items
-    //     _.each($scope.questions, function(question){
-    //         question.items = _.filter(question.items, function(item){
-    //             return $scope.input[item.field] !== "";
-    //         });
-    //     });
-    //
-    //     var getMeetingsPromise = ParseService.getMeetingsForContactId($stateParams.contactId);
-    //     getMeetingsPromise.success(function(data) {
-    //         $scope.meetings = data.results.map(function(meeting) {
-    //             return meeting;
-    //         });
-    //     });
-    // }).error(function(data) {
-    //     console.log(data.error);
-    // });
   }
 ]);
