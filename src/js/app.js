@@ -24,6 +24,7 @@ var newco = angular.module('newco', [
         // Services
         'ParseFactory',
         'AccountFactory',
+        'UtilsFactory',
 
         // Directives
         'QuestionForm'
