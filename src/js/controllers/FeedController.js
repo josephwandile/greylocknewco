@@ -4,6 +4,7 @@ FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope
   console.log('Feed Controller Activated');
 
   // Checks to see that you're staying up to date with contacts
+  // TODO(neel): use Firebase
   ParseService.addEmailReminderActions();
 
   $scope.dismiss = function(item) {
@@ -12,6 +13,7 @@ FeedController.controller('FeedCtrl', ['$scope', 'ParseService', function($scope
   };
 
   $scope.actionItems = [];
+  // TODO(neel): use Firebase
   let authPromise = ParseService.getAllActionItems();
   authPromise.success(function(data) {
     let actionItems = data.results;
