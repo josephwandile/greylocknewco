@@ -1,6 +1,8 @@
 var AddProfileController = angular.module('AddProfileController', []);
 
-AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$location', '$stateParams', function($scope, ParseService, $location, $stateParams) {
+AddProfileController.controller('AddProfileCtrl',
+        ['$scope', 'ParseService', '$location', '$stateParams', '$rootScope',
+        function($scope, ParseService, $location, $stateParams, $rootScope) {
     console.log('Controller Activated');
 
     console.log('Currently updating profile of user ID: ', $stateParams.contactId);
@@ -52,24 +54,17 @@ AddProfileController.controller('AddProfileCtrl', ['$scope', 'ParseService', '$l
         	console.log(status);
         })
 
-        // === Ajax Request ===
-        var authPromise = ParseService.updateContact(current_contact_id, {
-            'data': JSON.stringify(payload),
+        // Add contact
+        console.log("Adding contact");
+        $scope.contacts.$add({
+          'data': JSON.stringify(payload),
 
-            // Remaining Columns
-            'email': payload['email'],
-            'phone': payload['phone'],
-            'position': payload['position'],
-            'company': payload['current_work']
+          // Remaining Columns
+          'email': payload['email'],
+          'phone': payload['phone'],
+          'position': payload['position'],
+          'company': payload['current_work']
         });
-
-        authPromise.success(function(data) {
-
-            // Profile created; now add meeting details
-            $location.path('tab/add/meeting/'+current_meeting_id);
-
-        }).error(function(data, status, config, header) {
-            console.log(status);
-        });
+        $location.path('tab/add/meeting/' + current_meeting_id);
     };
 }]);

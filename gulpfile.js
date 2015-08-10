@@ -43,7 +43,10 @@ gulp.task('babel', function(done) {
     gulp.src('./src/js/**/*.js')
         .pipe(babel())
         .pipe(gulp.dest('./www/js/'))
-        .on('end', done);
+        .on('end', done)
+        .on('error', function(){
+            console.log(arguments);
+        });
 });
 
 // auto inject Angular files into index.hmtl

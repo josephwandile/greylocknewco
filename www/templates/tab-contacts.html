@@ -1,7 +1,7 @@
 <ion-view view-title="Contacts">
     <ion-content>
         <ion-list>
-            <div class="card" ng-repeat="contact in contacts">
+            <div class="card" ng-repeat="contact in contacts | fancify">
                 <ion-item href="#/tab/contacts/{{ contact.objectId }}" ng-click="specificContact(contact.objectId)">
                     <div class="row item-text-wrap">
                         <div class="col col-25">

@@ -1,8 +1,35 @@
-var ParseFactory = angular.module('ParseFactory', [])
+var ParseFactory = angular.module('ParseFactory', ['firebase'])
 
-ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', '$q', function($http, PARSE_CREDENTIALS, $q) {
+ParseFactory.factory('ParseService', ['$http', 'PARSE_CREDENTIALS', '$q',
+        '$rootScope', '$firebaseArray',
+        function($http, PARSE_CREDENTIALS, $q, $rootScope, $firebaseArray) {
 
-    var ref = new Firebase('https://201gc.firebaseio.com/questions');
+    let firebaseRoot = 'https://201gc.firebaseio.com';
+
+    // contacts
+    let contactRef = new Firebase(firebaseRoot + '/contacts');
+    $rootScope.contacts = $firebaseArray(contactRef);
+
+
+
+
+
+
+
+    var ref = new Firebase(firebaseRoot + '/questions');
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     var ParseService = {};
 
