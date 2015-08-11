@@ -1,30 +1,16 @@
 var ContactsController = angular.module('ContactsController', []);
 
-ContactsController.filter('fancify', function() {
+ContactsController.filter('fancify', ['UtilsFactory', function(UtilsFactory) {
   // makes contacts prettier (adds an avatar bubble, for instance)
-  var avatarColors = [
-    "positive-bg",
-    "calm-bg",
-    "balanced-bg",
-    "assertive-bg",
-    "royal-bg"
-  ];
   return function(input) {
     for (var i = 0; i < input.length; i++) {
       var contact = input[i];
-      // add a random color for their avatar (hash on first letter of name)
-      var avatarIndex = contact.first_name.charCodeAt(0) % avatarColors.length;
-      contact.avatarColor = avatarColors[avatarIndex];
-
-      // generate their avatar text: their first initials
-      var firstInitial = contact.first_name ? contact.first_name.charAt(0) : "";
-      var lastInitial = contact.last_name ? contact.last_name.charAt(0) : "";
-      var initials = firstInitial + lastInitial;
-      contact.avatarText = initials.toUpperCase();
+      contact.avatarColor = UtilsFactory.getAvatarColor(contact);
+      contact.avatarText = UtilsFactory.getAvatarText(contact);
     }
     return input;
   };
-})
+}]);
 
 ContactsController.controller('ContactsCtrl', ['$scope', 'ParseService', '$location', '$rootScope',
   function($scope, ParseService, $location, $rootScope) {
