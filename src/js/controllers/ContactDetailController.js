@@ -29,10 +29,10 @@ ContactDetailController.controller('ContactDetailCtrl', [
                     'data': JSON.stringify(payload),
 
                     // Remaining Columns
-                    'email': payload['email'],
-                    'phone': payload['phone'],
-                    'position': payload['position'],
-                    'company': payload['current_work']
+                    'email': payload.email,
+                    'phone': payload.phone,
+                    'position': payload.position,
+                    'company': payload.current_work '
                   });
 
                   authPromise.success(function(data) {
