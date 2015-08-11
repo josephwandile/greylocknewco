@@ -32,7 +32,7 @@ ContactDetailController.controller('ContactDetailCtrl', [
                     'email': payload.email,
                     'phone': payload.phone,
                     'position': payload.position,
-                    'company': payload.current_work '
+                    'company': payload.current_work
                   });
 
                   authPromise.success(function(data) {
